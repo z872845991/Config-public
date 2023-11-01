@@ -1,0 +1,8 @@
+source ~/.config/zsh/plugins.zsh
+source ~/.config/zsh/fzf.zsh
+source ~/.config/zsh/mappings.zsh
+
+autopair-init
+source ~/.zim/modules/fzf-tab/fzf-tab.plugin.zsh
+
+source ~/.config/zsh/prompt.zsh

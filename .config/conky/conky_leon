@@ -1,0 +1,71 @@
+conky.config = {
+	alignment = 'top_right',
+	background = true,
+        color2 = 'BBFFFF',
+        color3 = 'EEE6FA',
+        color4 = 'A6FFA6',
+	cpu_avg_samples = 2,
+	default_color = 'F9FAF9',
+	double_buffer = true,
+	font = 'Bitstream Vera Sans:size=10',
+	draw_shades = false,
+	gap_x = 10,
+	gap_y = 30,
+	minimum_width = 300,
+	no_buffers = true,
+	own_window = true,
+        update_interval = 1.0,
+        use_xft = true,
+        own_window_type = 'override',
+        --not rely on "Xcompmgr" transparent
+        --own_window_transparent = true,
+        --rely on "xcompmgr" transparent.
+        own_window_transparent = false,
+        own_window_argb_visual = true,
+        own_window_argb_value = 80,
+               
+        }
+conky.text = [[
+$alignr${voffset 3}$color2${font WenQuanYi ZenHei:size=48}${time %H:%M}$font
+${voffset -45}$color3${font Bitstream Vera Sans:size=24}${time %b}$font\
+  ${voffset 0}$color3${font WenQuanYi ZenHei:size=28}${time %e}$font\
+${voffset 5}$color4$hr
+$alignr$color3${font Driod Sans mono:size=20}${time %A}$font
+#
+${voffset 10}$alignr$color2${font WenQuanYi Micro Hei:size=14}清风与夜长相伴，何以独行至天明$font
+              ${voffset 20}${color}${font WenQuanYi ZenHei:size=24}C${font WenQuanYi ZenHei:size=16}pu$font\
+                 ${voffset -16}${font WenQuanYi ZenHei:size=24}M${font WenQuanYi ZenHei:size=16}em$font\
+$alignr${voffset -18}${font WenQuanYi ZenHei:size=24}S${font WenQuanYi ZenHei:size=16}wap$font
+$hr 
+                    ${voffset -7}$color4${font WenQuanYi ZenHei:size=10}$cpu%$font\
+                      ${voffset 0}$color4${font WenQuanYi ZenHei:size=10}$mem$font\
+$alignr${voffset 0}$color4${font WenQuanYi ZenHei:size=10}${swap} -${swapfree}$font
+
+#
+#${voffset 5}${goto 40}$font$color2${top name 1}$alignr$color${top cpu 1}%
+#${goto 40}$color2${top name 2}$alignr$color${top cpu 2}%
+#${goto 40}$color2${top name 3}$alignr$color${top cpu 3}%
+#${goto 40}$color2${top name 4}$alignr$color${top cpu 4}%
+# ${goto 40}$color2${top name 5}$alignr$color${top cpu 5}%
+#
+#
+#
+#${voffset 10}${goto 40}${color}${font Bitstream Vera Sans:size=12}RAM$color4${font Bitstream Vera Sans:bold:size=10}$alignr$mem$font
+#${goto 40}${voffset 5}$color2${top_mem name 1}$alignr$color${top_mem mem_res 1}
+#${goto 40}$color2${top_mem name 2}$alignr$color${top_mem mem_res 2}
+#${goto 40}$color2${top_mem name 3}$alignr$color${top_mem mem_res 3}
+#${goto 40}$color2${top_mem name 4}$alignr$color${top_mem mem_res 4}
+# ${goto 40}$color2${top_mem name 5}$alignr$color${top_mem mem_res 5}
+#
+#${voffset 10}${goto 40}${color}${font Bitstream Vera Sans:size=12}Swap$color4${font Bitstream Vera Sans:bold:size=10}$alignr${swap}/ ${swapfree}
+#
+#
+#
+#
+#
+#${voffset 15}$font$alignr${execi 10000 awk -F= '/TION/ {print $2}' /etc/lsb-release |sed 's/"//g'} \
+#${execi 10000 awk -F= '/EASE=/ {printf $2" "} /NAME/ {print $2}' /etc/lsb-release}
+#${voffset 50}${color2}${alignr}${execi 1200 whoami}@${nodename}
+#${alignr}${color2}${font Bitstream Vera Sans:size=12}uptime: ${color}${uptime_short}
+#${voffset 5}${color2}${font Bitstream Vera Sans:size=10}${alignr}kernel: ${color}${kernel}
+]]
