@@ -12,6 +12,7 @@ else
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # Automatically install plugins
     echo "install plugins"
+    pip install -U pynvim
     nvim -u ~/.config/nvim/init.vim +PlugInstall +qall
     nvim -u ~/.config/nvim/init.vim +UpdateRemotePlugins +qall
 fi
