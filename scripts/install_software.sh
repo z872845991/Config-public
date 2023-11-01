@@ -109,6 +109,22 @@ if [ ! -f "$(whereis tmux | awk '{print $2}')" ]; then
     fi
 fi
 
+# if ranger is not installed, install it.
+if [ ! -f "$(whereis ranger | awk '{print $2}')" ]; then
+    install_software ranger
+    if [ ! -f "$(whereis ranger | awk '{print $2}')" ]; then
+        echo "ranger" >> $log_dir/uninstalled_software.logs
+    fi
+fi
+
+# if fzf is not installed, install it.
+if [ ! -f "$(whereis fzf | awk '{print $2}')" ]; then
+    install_software fzf
+    if [ ! -f "$(whereis fzf | awk '{print $2}')" ]; then
+        echo "fzf" >> $log_dir/uninstalled_software.logs
+    fi
+fi
+
 echo "####################"
 echo "install software done"
 echo "####################"
