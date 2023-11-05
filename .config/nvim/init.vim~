@@ -58,7 +58,6 @@ Plug 'ianding1/leetcode.vim'
 Plug 'Corona09/picgo.nvim'
 Plug 'jspringyc/vim-word'
 Plug 'github/copilot.vim'
-Plug 'Yggdroot/indentLine'  " Add indent line for code
 Plug 'erietz/vim-terminator', { 'branch': 'main'}
 " Plug 'pappasam/coc-pyright', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 " Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
@@ -66,11 +65,6 @@ Plug 'erietz/vim-terminator', { 'branch': 'main'}
 
 call plug#end()
 
-
-"""""""" indent line
-let g:indentLine_enabled = 1
-let g:indentLine_char = '¦' 
-let g:indentLine_conceallevel = 2
 
 """"""""
 function OpenMarkdownPreview (url)
