@@ -20,7 +20,7 @@ set foldlevel=99
 
 
 """" undodir
-set undodir=/home/jesse/.local/.nvim_redo
+set undodir=$HOME/.local/.nvim_redo
 set undofile
 
 
