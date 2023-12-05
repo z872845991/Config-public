@@ -55,11 +55,12 @@ Plug 'mzlogin/vim-markdown-toc'
 Plug 'pseewald/vim-anyfold'
 Plug 'jiangmiao/auto-pairs'  " auto pairs () [] ,etc
 Plug 'ianding1/leetcode.vim'
-Plug 'Corona09/picgo.nvim'
+Plug 'Yggdroot/indentLine'  " Add indent line for code
+" Plug 'Corona09/picgo.nvim'
 Plug 'jspringyc/vim-word'
 Plug 'github/copilot.vim'
-Plug 'Yggdroot/indentLine'  " Add indent line for code
-Plug 'erietz/vim-terminator', { 'branch': 'main'}
+Plug 'chrisbra/csv.vim'
+Plug 'kdheepak/lazygit.nvim' 
 " Plug 'pappasam/coc-pyright', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 " Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
 "Plug 'tmhedberg/SimpylFold', { 'for' :['python', 'vim-plug'] }
@@ -67,12 +68,28 @@ Plug 'erietz/vim-terminator', { 'branch': 'main'}
 call plug#end()
 
 
+"""""" lazygit
+let g:lazygit_floating_window_winblend = 0 " transparency of floating window
+let g:lazygit_floating_window_scaling_factor = 0.9 " scaling factor for floating window
+let g:lazygit_floating_window_border_chars = ['╭','─', '╮', '│', '╯','─', '╰', '│'] " customize lazygit popup window border characters
+let g:lazygit_floating_window_use_plenary = 0 " use plenary.nvim to manage floating window if available
+let g:lazygit_use_neovim_remote = 1 " fallback to 0 if neovim-remote is not installed
+
+let g:lazygit_use_custom_config_file_path = 0 " config file path is evaluated if this value is 1
+let g:lazygit_config_file_path = '' " custom config file path
+" OR
+let g:lazygit_config_file_path = [] " list of custom config file paths
+
+
+
+
 """""""" indent line
 let g:indentLine_enabled = 1
-let g:indentLine_char = '�' 
+let g:indentLine_char = '¦' 
+
 let g:indentLine_conceallevel = 2
 
-""""""""
+"""""""" markdown preview
 function OpenMarkdownPreview (url)
 	execute "silent ! google-chrome-stable " . a:url
 endfunction
@@ -83,7 +100,6 @@ let g:mkdp_browserfunc = 'OpenMarkdownPreview'
 """""" coc-extensions
 let g:coc_global_extensions = [
       \'coc-translator',
-      \'coc-sh',
       \'coc-json' 
       \]
 
@@ -126,19 +142,20 @@ let g:NERDTreeDirArrowCollapsible="~"
 """""" airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#enabled = 0
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
 
 " airline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+" let g:airline_left_sep = 'î°'
+" let g:airline_left_alt_sep = 'î±'
+" let g:airline_right_sep = 'î²'
+" let g:airline_right_alt_sep = 'î³'
+" let g:airline_symbols.branch = 'î '
+" let g:airline_symbols.readonly = 'î¢'
+" let g:airline_symbols.linenr = 'î¡'
 
 """" anyfold
 
@@ -291,4 +308,3 @@ augroup end
 hi String ctermfg=076
 hi Number ctermfg=076
 
-let @a="i# include <bits/stdc++.h>using namesa�kbpace std;int main(){}�kl�ku	return 0;�ku"
