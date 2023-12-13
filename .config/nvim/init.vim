@@ -208,12 +208,51 @@ let g:rnvimr_presets = [
 
 
 """""" vimspector
+let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools' ]
+let g:vimspector_enable_mappings = 'HUMAN'
 " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
 "
 " " for normal mode - the word under the cursor
 nmap <Leader>di <Plug>VimspectorBalloonEval
 " " for visual mode, the visually selected text
 xmap <Leader>di <Plug>VimspectorBalloonEval
+
+" | Key          | Mapping                                       | Function
+" | ---          | ---                                           | ---
+" | `F5`         | `<Plug>VimspectorContinue`                    | When debugging, continue. Otherwise start debugging.
+" | `F3`         | `<Plug>VimspectorStop`                        | Stop debugging.
+" | `F4`         | `<Plug>VimspectorRestart`                     | Restart debugging with the same configuration.
+" | `F6`         | `<Plug>VimspectorPause`                       | Pause debuggee.
+" | `F9`         | `<Plug>VimspectorToggleBreakpoint`            | Toggle line breakpoint on the current line.
+" | `<leader>F9` | `<Plug>VimspectorToggleConditionalBreakpoint` | Toggle conditional line breakpoint or logpoint on the current line.
+" | `F8`         | `<Plug>VimspectorAddFunctionBreakpoint`       | Add a function breakpoint for the expression under cursor
+" | `<leader>F8` | `<Plug>VimspectorRunToCursor`                 | Run to Cursor
+" | `F10`        | `<Plug>VimspectorStepOver`                    | Step Over
+" | `F11`        | `<Plug>VimspectorStepInto`                    | Step Into
+" | `F12`        | `<Plug>VimspectorStepOut`                     | Step out of current function scope
+
+" In addition, I recommend adding a mapping to `<Plug>VimspectorBalloonEval`, in
+" normal and visual modes, for example:
+
+" ```viml
+" " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
+
+" " for normal mode - the word under the cursor
+" nmap <Leader>di <Plug>VimspectorBalloonEval
+" " for visual mode, the visually selected text
+" xmap <Leader>di <Plug>VimspectorBalloonEval
+" ```
+
+" You may also wish to add mappings for navigating up/down the stack, toggling
+" the breakpoints window, and showing disassembly, for example:
+
+" ```viml
+" nmap <LocalLeader><F11> <Plug>VimspectorUpFrame
+" nmap <LocalLeader><F12> <Plug>VimspectorDownFrame
+" nmap <LocalLeader>B     <Plug>VimspectorBreakpoints
+" nmap <LocalLeader>D     <Plug>VimspectorDisassemble
+" ```
+"
 
 """""" lazygit
 let g:lazygit_floating_window_winblend = 0 " transparency of floating window
