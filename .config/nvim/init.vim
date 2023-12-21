@@ -45,7 +45,8 @@ Plug 'https://github.com/lambdalisue/suda.vim/' " Sudo
 Plug 'https://github.com/gcmt/wildfire.vim'
 Plug 'https://github.com/wookayin/semshi'
 Plug 'https://github.com/mbbill/undotree'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install()  }, 'for': ['markdown', 'vim-plug'] }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'dracula/vim',{'name':'dracula'}
 Plug 'junegunn/vim-easy-align'
