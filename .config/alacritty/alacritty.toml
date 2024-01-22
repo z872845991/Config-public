@@ -1,0 +1,15 @@
+import = ["~/.config/alacritty/dracula.toml"]
+
+[font]
+bold = {family = "MesloLGS NF", style = "Bold"}
+italic = {family = "MesloLGS NF", style = "Italic"}
+normal = {family = "MesloLGS NF", style = "Regular"}
+size = 12
+
+[window]
+opacity = 0.8
+
+[scrolling]
+history = 100000
+multiplier = 3
+
