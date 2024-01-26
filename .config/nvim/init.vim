@@ -65,11 +65,20 @@ Plug 'kdheepak/lazygit.nvim'
 Plug 'puremourning/vimspector'
 Plug 'kevinhwang91/rnvimr'
 Plug 'mg979/vim-xtabline'
+
+Plug 'AndrewRadev/switch.vim' " vim-toggle-bool dependency
+Plug 'gerazov/vim-toggle-bool' "switch true/false
+
 " Plug 'pappasam/coc-pyright', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 " Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
 "Plug 'tmhedberg/SimpylFold', { 'for' :['python', 'vim-plug'] }
 
 call plug#end()
+
+
+" ==================== vim-toggle-bool ====================
+" Toggle boolean values
+nnoremap <silent> <leader>s :ToggleBool<CR>
 
 " ==================== xtabline ====================
 let g:xtabline_settings = {}
