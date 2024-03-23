@@ -45,8 +45,8 @@ Plug 'https://github.com/lambdalisue/suda.vim/' " Sudo
 Plug 'https://github.com/gcmt/wildfire.vim'
 Plug 'https://github.com/wookayin/semshi'
 Plug 'https://github.com/mbbill/undotree'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install()  }, 'for': ['markdown', 'vim-plug'] }
 " Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'dracula/vim',{'name':'dracula'}
 Plug 'junegunn/vim-easy-align'
@@ -56,7 +56,8 @@ Plug 'mzlogin/vim-markdown-toc'
 Plug 'pseewald/vim-anyfold'
 Plug 'jiangmiao/auto-pairs'  " auto pairs () [] ,etc
 Plug 'ianding1/leetcode.vim'
-Plug 'Yggdroot/indentLine'  " Add indent line for code
+" Plug 'Yggdroot/indentLine'  " Add indent line for code
+Plug 'lukas-reineke/indent-blankline.nvim'
 " Plug 'Corona09/picgo.nvim'
 Plug 'jspringyc/vim-word'
 Plug 'github/copilot.vim'
@@ -68,6 +69,8 @@ Plug 'mg979/vim-xtabline'
 
 Plug 'AndrewRadev/switch.vim' " vim-toggle-bool dependency
 Plug 'gerazov/vim-toggle-bool' "switch true/false
+
+Plug 'vimwiki/vimwiki'
 
 " Plug 'pappasam/coc-pyright', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 " Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
@@ -278,6 +281,9 @@ let g:lazygit_config_file_path = '' " custom config file path
 let g:lazygit_config_file_path = [] " list of custom config file paths
 
 
+"""""""" indent-blankline
+
+lua require("ibl").setup { indent = { highlight = highlight , char = "|" } }
 
 
 """""""" indent line
