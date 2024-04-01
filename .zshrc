@@ -282,6 +282,7 @@ alias grub2-theme-preview="/home/jesse/.local/bin/grub2-theme-preview"
 setopt globdots
 
 alias ra="ranger"
+alias lz="lazygit"
 alias rg="rg --sort path"
 alias tsb="trans :zh -shell -brief"
 alias ts="trans :zh -shell"
