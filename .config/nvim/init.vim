@@ -78,6 +78,11 @@ Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
+" ==================== vimwiki ====================
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': 'md'}]
+" let g:vimwiki_global_ext = 0  " cooment out it make markdown don't conceal some links.
+
 
 " ==================== vim-toggle-bool ====================
 " Toggle boolean values
