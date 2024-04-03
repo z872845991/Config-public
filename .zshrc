@@ -256,6 +256,7 @@ export LANG=en_US.UTF-8
 # alias edge="microsoft-edge-dev --proxy-server='socks://127.0.0.1:7891'"
 
 eval "$(dircolors ~/.dir_colors)"
+eval "$(fzf --zsh)"
 setopt nonomatch
 
 set -o vi
