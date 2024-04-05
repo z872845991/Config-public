@@ -533,3 +533,11 @@ augroup end
 hi String ctermfg=076
 hi Number ctermfg=076
 
+"""""""" 
+"""""""" servers config standone
+""""""""
+
+""" xclip
+" if executable("xclip")
+" 	set clipboard=unnamedplus
+" endif
