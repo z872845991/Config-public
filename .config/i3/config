@@ -113,7 +113,7 @@ bindsym $mod+X exec --no-startup-id archlinux-logout
 bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
 bindsym $alt+Shift+d exec --no-startup-id ~/.config/i3/launcher/launcher.sh
 # bindsym deepin-screenshot
-bindsym $alt+Control+a exec --no-startup-id deepin-screenshot
+bindsym $alt+Control+a exec --no-startup-id LC_ALL=C deepin-screen-recorder
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
