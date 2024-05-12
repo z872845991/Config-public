@@ -78,6 +78,7 @@ Plug 'mg979/vim-xtabline'
 
 call plug#end()
 
+
 " ==================== vimwiki ====================
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': 'md'}]
@@ -533,6 +534,7 @@ augroup end
 
 hi String ctermfg=076
 hi Number ctermfg=076
+
 
 """""""" 
 """""""" servers config standone
