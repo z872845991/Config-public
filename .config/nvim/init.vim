@@ -26,7 +26,8 @@ set undofile
 
 """" plug 
 call plug#begin()
-
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'sindrets/diffview.nvim' " Diff View for Git, need Git >= 2.31.0 Mercurial >= 5.4.0
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
 Plug 'https://github.com/preservim/nerdtree' " NerdTree
 Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
@@ -49,6 +50,7 @@ Plug 'https://github.com/mbbill/undotree'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'dracula/vim',{'name':'dracula'}
+Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'vim-autoformat/vim-autoformat'
@@ -59,7 +61,7 @@ Plug 'ianding1/leetcode.vim'
 " Plug 'Yggdroot/indentLine'  " Add indent line for code
 Plug 'lukas-reineke/indent-blankline.nvim'
 " Plug 'Corona09/picgo.nvim'
-Plug 'jspringyc/vim-word'
+Plug 'jspringyc/vim-word' " Count word numbers
 Plug 'github/copilot.vim'
 Plug 'chrisbra/csv.vim'
 Plug 'kdheepak/lazygit.nvim' 
@@ -77,6 +79,7 @@ Plug 'vimwiki/vimwiki'
 "Plug 'tmhedberg/SimpylFold', { 'for' :['python', 'vim-plug'] }
 
 call plug#end()
+
 
 " ==================== vimwiki ====================
 let g:vimwiki_list = [{'path': '~/vimwiki/',
@@ -532,6 +535,7 @@ augroup end
 
 hi String ctermfg=076
 hi Number ctermfg=076
+
 
 """""""" 
 """""""" servers config standone
