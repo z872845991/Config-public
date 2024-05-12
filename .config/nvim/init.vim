@@ -53,6 +53,7 @@ Plug 'dracula/vim',{'name':'dracula'}
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'vim-autoformat/vim-autoformat'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'pseewald/vim-anyfold'
