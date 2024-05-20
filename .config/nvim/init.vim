@@ -9,6 +9,7 @@ set softtabstop=4
 set mouse=a
 set modifiable
 set encoding=UTF-8
+let mapleader
 
 """"fold function
 filetype plugin indent on
