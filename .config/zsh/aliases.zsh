@@ -15,5 +15,8 @@ sed -i '$ a\alias ts="trans :zh -shell"' ~/.zshrc
 sed -i '$ a\alias xp="xclip -selection clipboard"' ~/.zshrc
 sed -i '$ a\alias lls="logo-ls"' ~/.zshrc
 sed -i '$ a\alias grub2-theme-preview="/home/jesse/.local/bin/grub2-theme-preview"' ~/.zshrc
+sed -i '$ a\source ~/.config/zsh/fzf.zsh' ~/.zshrc
+sed -i '$ a\source ~/.config/zsh/mappings.zsh' ~/.zshrc
+sed -i '$ a\source ~/.config/zsh/prompts.zsh' ~/.zshrc
 sed -i '$ a\[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' ~/.zshrc
 sed -i '$ a\(( ! ${+functions[p10k]} )) || p10k finalize' ~/.zshrc
