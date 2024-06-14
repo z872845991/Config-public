@@ -1,0 +1,18 @@
+{
+	"configurations": {
+		"Canary": {
+			"adapter": "debugpy",
+			"configuration": {
+				"name": "Canary",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"python": "<envs>/bin/python",
+				"cwd": "${workspaceFolder}",
+				"stopOnEntry": false,
+				"console": "integratedTerminal",
+				"args": ["*${CommandLineArgs}"]
+			}
+		}
+	}
+}
