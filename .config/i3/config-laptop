@@ -61,6 +61,7 @@ exec_always --no-startup-id LC_ALL=C ~/.config/polybar/launch.sh &
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always variety
 exec_always albert
+exec_always --no-startup-id unclutter --timeout 3 --jitter 10 --ignore-scrolling
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 #exec_always --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
