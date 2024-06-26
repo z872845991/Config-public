@@ -9,6 +9,7 @@ set softtabstop=4
 set mouse=a
 set modifiable
 set encoding=UTF-8
+let mapleader = "\<Space>"
 
 """"fold function
 filetype plugin indent on
@@ -17,7 +18,6 @@ autocmd Filetype * AnyFoldActivate
 " set foldenable
 set foldlevel=99
 " set foldmethod=indent
-
 
 """" undodir
 set undodir=$HOME/.local/.nvim_redo
@@ -35,7 +35,6 @@ Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType 
 Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
 Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
 Plug 'https://github.com/tribela/vim-transparent'
-" Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
 Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
@@ -45,7 +44,6 @@ Plug 'https://github.com/lambdalisue/suda.vim/' " Sudo
 Plug 'https://github.com/gcmt/wildfire.vim'
 Plug 'https://github.com/wookayin/semshi'
 Plug 'https://github.com/mbbill/undotree'
-" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'dracula/vim',{'name':'dracula'}
@@ -56,7 +54,6 @@ Plug 'mzlogin/vim-markdown-toc'
 Plug 'pseewald/vim-anyfold'
 Plug 'jiangmiao/auto-pairs'  " auto pairs () [] ,etc
 Plug 'ianding1/leetcode.vim'
-" Plug 'Yggdroot/indentLine'  " Add indent line for code
 Plug 'lukas-reineke/indent-blankline.nvim'
 " Plug 'Corona09/picgo.nvim'
 Plug 'jspringyc/vim-word'
@@ -65,16 +62,14 @@ Plug 'chrisbra/csv.vim'
 Plug 'kdheepak/lazygit.nvim' 
 Plug 'puremourning/vimspector'
 Plug 'kevinhwang91/rnvimr'
-Plug 'mg979/vim-xtabline'
+Plug 'tpope/vim-fugitive' " git plugin, :Gedit branch:%
+" Plug 'mg979/vim-xtabline'
 
 Plug 'AndrewRadev/switch.vim' " vim-toggle-bool dependency
-Plug 'gerazov/vim-toggle-bool' "switch true/false
+Plug 'gerazov/vim-toggle-bool' "switch true/false, use: <leader>s
 
 Plug 'vimwiki/vimwiki'
 
-" Plug 'pappasam/coc-pyright', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
-" Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'tmhedberg/SimpylFold', { 'for' :['python', 'vim-plug'] }
 
 call plug#end()
 
