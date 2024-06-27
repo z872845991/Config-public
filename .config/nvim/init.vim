@@ -47,29 +47,32 @@ Plug 'wookayin/semshi'
 Plug 'mbbill/undotree'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'dracula/vim',{'name':'dracula'}
+Plug 'dracula/vim',{'name':'dracula'} " a color scheme 
+Plug 'junegunn/goyo.vim' " focus mode
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fzf.vim dependency
+Plug 'junegunn/fzf.vim'
 Plug 'vim-autoformat/vim-autoformat'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'pseewald/vim-anyfold'
 Plug 'jiangmiao/auto-pairs'  " auto pairs () [] ,etc
 Plug 'ianding1/leetcode.vim'
-Plug 'lukas-reineke/indent-blankline.nvim'
-" Plug 'Corona09/picgo.nvim'
-Plug 'jspringyc/vim-word'
-Plug 'github/copilot.vim'
-Plug 'chrisbra/csv.vim'
-Plug 'kdheepak/lazygit.nvim' 
-Plug 'puremourning/vimspector'
-Plug 'kevinhwang91/rnvimr'
+Plug 'lukas-reineke/indent-blankline.nvim' " add indent line
+Plug 'jspringyc/vim-word' " :WordCount :WordCountLine
+Plug 'github/copilot.vim' " github copilot
+Plug 'chrisbra/csv.vim' 
+Plug 'kdheepak/lazygit.nvim' " Lazygit in nvim
+Plug 'puremourning/vimspector' " Debugger
+Plug 'kevinhwang91/rnvimr' " ranger in nvim
 Plug 'tpope/vim-fugitive' " git plugin, :Gedit branch:%
-" Plug 'mg979/vim-xtabline'
-
 Plug 'AndrewRadev/switch.vim' " vim-toggle-bool dependency
 Plug 'gerazov/vim-toggle-bool' "switch true/false, use: <leader>s
-
 Plug 'vimwiki/vimwiki'
+
+" Plug 'mg979/vim-xtabline'
+" Plug 'Corona09/picgo.nvim'
+" Plug 'nvim-tree/nvim-web-devicons' " diffview dependency
+" Plug 'sindrets/diffview.nvim' " Diff View for Git, need Git >= 2.31.0 Mercurial >= 5.4.0
 
 
 call plug#end()
