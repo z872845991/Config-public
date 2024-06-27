@@ -27,23 +27,24 @@ set undofile
 """" plug 
 call plug#begin()
 
-Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
-Plug 'https://github.com/preservim/nerdtree' " NerdTree
-Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
-Plug 'https://github.com/vim-airline/vim-airline' " Status bar
-Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
-Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
-Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
-Plug 'https://github.com/tribela/vim-transparent'
+Plug 'tpope/vim-surround' " Surrounding ysw)
+Plug 'preservim/nerdtree' " NerdTree
+Plug 'tpope/vim-commentary' " For Commenting gcc & gc
+Plug 'vim-airline/vim-airline' " Status bar
+Plug 'lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
+Plug 'ap/vim-css-color' " CSS Color Preview
+Plug 'rafi/awesome-vim-colorschemes' " Retro Scheme
+Plug 'folke/tokyonight.nvim'
+Plug 'tribela/vim-transparent'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
-Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
-Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
+Plug 'ryanoasis/vim-devicons' " Developer Icons
+Plug 'tc50cal/vim-terminal' " Vim Terminal
+Plug 'preservim/tagbar' " Tagbar for code navigation
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'https://github.com/lambdalisue/suda.vim/' " Sudo
-Plug 'https://github.com/gcmt/wildfire.vim'
-Plug 'https://github.com/wookayin/semshi'
-Plug 'https://github.com/mbbill/undotree'
+Plug 'lambdalisue/suda.vim/' " Sudo
+Plug 'gcmt/wildfire.vim'
+Plug 'wookayin/semshi'
+Plug 'mbbill/undotree'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'dracula/vim',{'name':'dracula'}
@@ -344,8 +345,7 @@ nmap ga <Plug>(EasyAlign)
 
 """" colorscheme
 :set completeopt-=preview " For No Previews
-:colorscheme jellybeans
-" :colorscheme dracula
+:colorscheme tokyonight-night
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
