@@ -316,7 +316,8 @@ let g:mkdp_browserfunc = 'OpenMarkdownPreview'
 """""" coc-extensions
 let g:coc_global_extensions = [
       \'coc-translator',
-      \'coc-json' 
+      \'coc-json',
+      \'coc-pyright'
       \]
 
 """""  use t as prefix letter 
