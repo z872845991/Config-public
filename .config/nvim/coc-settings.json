@@ -6,6 +6,9 @@
 	"pyright.disableDiagnostics": false,
 	"pyright.organizeimports.provider": "ruff",
 	"python.analysis.typeCheckingMode": "basic",
+	"pyright.inlayHints.variableTypes": false,
+	"pyright.inlayHints.parameterTypes": false,
+	"pyright.inlayHints.functionReturnTypes": false,
 	"languageserver": {
 		"ccls": {
 			"command": "ccls",
