@@ -70,7 +70,7 @@ Plug 'AndrewRadev/switch.vim' " vim-toggle-bool dependency
 Plug 'gerazov/vim-toggle-bool' "switch true/false, use: <leader>s
 Plug 'vimwiki/vimwiki'
 
-" Plug 'mg979/vim-xtabline'
+Plug 'mg979/vim-xtabline'
 " Plug 'Corona09/picgo.nvim'
 " Plug 'nvim-tree/nvim-web-devicons' " diffview dependency
 " Plug 'sindrets/diffview.nvim' " Diff View for Git, need Git >= 2.31.0 Mercurial >= 5.4.0
@@ -94,7 +94,7 @@ let g:xtabline_settings.buffers_paths = 0
 " let g:xtabline_settings.current_tab_paths = 2
 " let g:xtabline_settings.other_tabs_paths = 0
 let g:xtabline_settings.enable_mappings = 0
-let g:xtabline_settings.tabline_modes = ['arglist']
+let g:xtabline_settings.tabline_modes = ['buffers']
 let g:xtabline_settings.enable_persistance = 0
 let g:xtabline_settings.last_open_first = 0
 let g:xtabline_settings.theme = 'dracula'
