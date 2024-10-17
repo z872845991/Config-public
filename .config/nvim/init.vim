@@ -71,7 +71,7 @@ Plug 'gerazov/vim-toggle-bool' "switch true/false, use: <leader>s
 Plug 'vimwiki/vimwiki'
 
 Plug 'mg979/vim-xtabline'
-" Plug 'Corona09/picgo.nvim'
+" Plug 'askfiy/nvim-picgo'
 " Plug 'nvim-tree/nvim-web-devicons' " diffview dependency
 " Plug 'sindrets/diffview.nvim' " Diff View for Git, need Git >= 2.31.0 Mercurial >= 5.4.0
 
@@ -406,8 +406,9 @@ let g:leetcode_browser = 'chrome'
 """"""""
 
 """"""""picgo
-nnoremap  <leader>ps :UploadImageFromClipboard<CR> 
-let g:picgo#image_code_template = [ '![]( ${url} )' ]
+autocmd VimEnter * lua require('nvim-picgo').setup()
+nnoremap  <leader>ps :UploadClipboard<CR> 
+nnoremap  <leader>pf :UploadImagefile<CR> 
 
 """"""""  c-j to add a line 
 nnoremap <C-j> :set paste<CR>o<Esc>:set nopaste<CR>
