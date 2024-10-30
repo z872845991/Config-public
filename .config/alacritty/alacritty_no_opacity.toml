@@ -5,8 +5,7 @@ normal = {family = "MesloLGS NF", style = "Regular"}
 size = 12
 
 [window]
-opacity = 0.8
-option_as_alt = "OnlyLeft"
+opacity = 1.0
 
 [scrolling]
 history = 100000
@@ -14,3 +13,4 @@ multiplier = 3
 
 [general]
 import = ["~/.config/alacritty/dracula.toml"]
+
