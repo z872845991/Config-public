@@ -137,7 +137,7 @@ POWERLEVEL9k_DISABLE_CONFIGURATION_WIZARD=true
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 setopt nonomatch # if not match, don't returen error info.
 setopt globdots # match hidden files
-alias ra="joshuto"
+alias ra="yazi"
 alias lz="lazygit"
 alias rg="rg --sort path"
 alias tsb="trans :zh -shell -brief"
