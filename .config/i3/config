@@ -16,6 +16,18 @@ set $alt Mod1
 font pango:Noto Sans Mono 16
 #font pango:DejaVu Sans Mono 16
 
+
+
+####################### custom setting ############################
+# focus don't follow mouse
+focus_follows_mouse no
+
+# when the focus moves to another window, the mouse pointer don't move
+mouse_warping none
+
+
+###################################################################
+
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
