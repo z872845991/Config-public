@@ -1,8 +1,8 @@
 [init]
 	defalutBranch = main
 [user]
-	email = z872845991@163.com
-	name = Jesse Wang
+	email = 
+	name = 
 [hub]
 	protocol = ssh
 
