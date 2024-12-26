@@ -1,5 +1,8 @@
 [plugin]
-deps = [{ use = "llanosrocas/yaziline", rev = "5886330" }, { use = "Rolv-Apneseth/starship", rev = "20d5a4d" }, { use = "AnirudhG07/rich-preview", rev = "fe43219" }]
+deps = [
+	{ use = "Rolv-Apneseth/starship", rev = "20d5a4d" },
+	{ use = "AnirudhG07/rich-preview", rev = "fe43219" }, { use = "llanosrocas/yaziline", rev = "73f6cdd" },
+]
 
 [flavor]
 deps = []

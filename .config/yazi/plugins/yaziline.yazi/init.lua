@@ -14,12 +14,15 @@ local function setup(_, options)
       separator_open = options.separator_open or separators[1],
       separator_close = options.separator_close or separators[2],
       separator_open_thin = options.separator_open_thin or separators[3],
-      separator_close_thin = options.separator_close_thin or separators[4]
+      separator_close_thin = options.separator_close_thin or separators[4],
+      separator_head = options.separator_head or "",
+      separator_tail = options.separator_tail or ""
     },
     select_symbol = options.select_symbol or "S",
     yank_symbol = options.yank_symbol or "Y",
     filename_max_length = options.filename_max_length or 24,
-    filename_trim_length = options.filename_trim_length or 6
+    filename_trim_length = options.filename_trim_length or 6,
+    color = options.color or nil
   }
 
   local current_separator_style = config.separator_styles
@@ -35,7 +38,10 @@ local function setup(_, options)
     end
 
     local style = self:style()
-    return ui.Span(" " .. mode .. " "):style(style)
+    return ui.Line({
+      ui.Span(current_separator_style.separator_head):fg(config.color or style.main.bg),
+      ui.Span(" " .. mode .. " "):fg(THEME.which.mask.bg):bg(config.color or style.main.bg),
+    })
   end
 
   function Status:size()
@@ -46,7 +52,7 @@ local function setup(_, options)
 
     local style = self:style()
     return ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(h:size() or h.cha.len) .. " ")
-        :fg(style.bg):bg(THEME.status.separator_style.bg)
+        :fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg)
   end
 
   function Status:name()
@@ -61,8 +67,8 @@ local function setup(_, options)
 
     local style = self:style()
     return ui.Line {
-      ui.Span(current_separator_style.separator_close .. " "):fg(THEME.status.separator_style.fg),
-      ui.Span(trimmed_name):fg(style.bg),
+      ui.Span(current_separator_style.separator_close .. " "):fg(THEME.which.separator_style.fg),
+      ui.Span(trimmed_name):fg(config.color or style.main.bg),
     }
   end
 
@@ -71,15 +77,16 @@ local function setup(_, options)
     local files_selected = #cx.active.selected
     local files_is_cut = cx.yanked.is_cut
 
-    local selected_fg = files_selected > 0 and THEME.manager.count_selected.bg or THEME.status.separator_style.fg
+    local selected_fg = files_selected > 0 and THEME.manager.count_selected.bg or THEME.which.separator_style.fg
     local yanked_fg = files_yanked > 0 and
         (files_is_cut and THEME.manager.count_cut.bg or THEME.manager.count_copied.bg) or
-        THEME.status.separator_style.fg
+        THEME.which.separator_style.fg
 
     local yanked_text = files_yanked > 0 and config.yank_symbol .. " " .. files_yanked or config.yank_symbol .. " 0"
 
     return ui.Line {
-      ui.Span(" " .. current_separator_style.separator_close_thin .. " "):fg(THEME.status.separator_style.fg),
+      ui.Span(" " .. current_separator_style.separator_close_thin .. " "):fg(
+      THEME.which.separator_style.fg),
       ui.Span(config.select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
       ui.Span(yanked_text .. "  "):fg(yanked_fg),
     }
@@ -91,10 +98,10 @@ local function setup(_, options)
     local time = (cha.mtime or 0) // 1
 
     return ui.Span(os.date("%Y-%m-%d %H:%M", time) .. " " .. current_separator_style.separator_open_thin .. " "):fg(
-      THEME.status.separator_style.fg)
+      THEME.which.separator_style.fg)
   end
 
-  function Status:percentage()
+  function Status:percent()
     local percent = 0
     local cursor = self._tab.current.cursor
     local length = #self._tab.current.files
@@ -107,14 +114,14 @@ local function setup(_, options)
     elseif percent == 100 then
       percent = "  Bot "
     else
-      percent = string.format(" %3d%% ", percent)
+      percent = string.format(" %2d%% ", percent)
     end
 
     local style = self:style()
     return ui.Line {
-      ui.Span(" " .. current_separator_style.separator_open):fg(THEME.status.separator_style.fg),
-      ui.Span(percent):fg(style.bg):bg(THEME.status.separator_style.bg),
-      ui.Span(current_separator_style.separator_open):fg(style.bg):bg(THEME.status.separator_style.bg)
+      ui.Span(" " .. current_separator_style.separator_open):fg(THEME.which.separator_style.fg),
+      ui.Span(percent):fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg),
+      ui.Span(current_separator_style.separator_open):fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg)
     }
   end
 
@@ -123,7 +130,10 @@ local function setup(_, options)
     local length = #self._tab.current.files
 
     local style = self:style()
-    return ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):style(style)
+    return ui.Line({
+      ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):fg(THEME.which.mask.bg):bg(config.color or style.main.bg),
+      ui.Span(current_separator_style.separator_tail):fg(config.color or style.main.bg),
+    })
   end
 
   Status:children_add(Status.files, 4000, Status.LEFT)
