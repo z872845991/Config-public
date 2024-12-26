@@ -4,8 +4,8 @@
 
 [manager]
 prepend_keymap = [
-	{ on = "<Enter>", run = 'plugin --sync smart-enter' },
-	{ on = "l", run = 'plugin --sync smart-enter' },
+	{ on = "<Enter>", run = 'plugin smart-enter' },
+	{ on = "l", run = 'plugin smart-enter' },
 	{ on = "S", run = 'shell "$SHELL" --block --confirm' },
 	{ on = [
 		"`",
@@ -38,10 +38,10 @@ keymap = [
 	{ on = "l", run = "enter", desc = "Enter the child directory" },
 
 	# Selection
-	{ on = "<Space>", run = ["select --state=none", "arrow 1"], desc = "Toggle the current selection state" },
+	{ on = "<Space>", run = ["toggle", "arrow 1"], desc = "Toggle the current selection state" },
 	{ on = "v", run = "visual_mode", desc = "Enter visual mode (selection mode)" },
 	{ on = "V", run = "visual_mode --unset", desc = "Enter visual mode (unset mode)" },
-	{ on = "<C-a>", run = "select_all", desc = "Select all files" },
+	{ on = "<C-a>", run = "toggle_all", desc = "Select all files" },
 
 	# Find
 	{ on = "<C-f>", run = "plugin fzf", desc = "Jump to a directory or reveal a file using fzf" },
@@ -64,6 +64,7 @@ keymap = [
 	{ on = "<Backspace>", run = "hidden toggle", desc = "Toggle the visibility of hidden files" },
 
 	# Open
+
 	{ on = "r", run = "open --interactive", desc = "Open selected files interactively" },
 
 	# Create
@@ -95,7 +96,7 @@ keymap = [
 
 	# Linemode
 	{ on = ["m", "s"], run = "linemode size", desc = "Set linemode to size" },
-	{ on = ["m", "p"], run = "linemode permissions", desc = "Set linemode to permissions" },
+	{ on = ["m", "p"], run = "linemode perm", desc = "Set linemode to permissions" },
 	{ on = ["m", "c"], run = "linemode ctime", desc = "Set linemode to ctime" },
 	{ on = ["m", "m"], run = "linemode mtime", desc = "Set linemode to mtime" },
 	{ on = ["m", "o"], run = "linemode owner", desc = "Set linemode to owner" },
@@ -103,10 +104,10 @@ keymap = [
 
 
 	# Sorting
-	{ on = ["o", "M"], run = ["sort modified --reverse=no", "linemode mtime"], desc = "Sort by modified time" },
-	{ on = ["o", "m"], run = ["sort modified --reverse", "linemode mtime"], desc = "Sort by modified time (reverse)" },
-	{ on = ["o", "C"], run = ["sort created --reverse=no", "linemode ctime"], desc = "Sort by created time" },
-	{ on = ["o", "c"], run = ["sort created --reverse", "linemode ctime"], desc = "Sort by created time (reverse)" },
+	{ on = ["o", "M"], run = ["sort mtime --reverse=no", "linemode mtime"], desc = "Sort by modified time" },
+	{ on = ["o", "m"], run = ["sort mtime --reverse", "linemode mtime"], desc = "Sort by modified time (reverse)" },
+	{ on = ["o", "C"], run = ["sort btime --reverse=no", "linemode ctime"], desc = "Sort by created time" },
+	{ on = ["o", "c"], run = ["sort btime --reverse", "linemode ctime"], desc = "Sort by created time (reverse)" },
 	{ on = ["o", "E"], run = "sort extension --reverse=no", desc = "Sort by extension" },
 	{ on = ["o", "e"], run = "sort extension --reverse", desc = "Sort by extension (reverse)" },
 	{ on = ["o", "a"], run = "sort alphabetical --reverse=no", desc = "Sort alphabetically" },

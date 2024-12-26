@@ -8,7 +8,6 @@ require("yaziline"):setup {
 require("starship"):setup {
 	config_file = "~/.config/yazi/starship.toml",
 }
-require("git"):setup {}
 
 Status:children_add(function()
 	local h = cx.active.current.hovered
@@ -27,3 +26,6 @@ end, 500, Status.RIGHT)
 require("yamb"):setup {
 	cli = "fzf",
 }
+-- require("git"):setup({
+-- 	show_branch = true,
+-- })

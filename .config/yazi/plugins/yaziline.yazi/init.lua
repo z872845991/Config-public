@@ -45,7 +45,7 @@ local function setup(_, options)
     end
 
     local style = self:style()
-    return ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(h:size() or h.cha.length) .. " ")
+    return ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(h:size() or h.cha.len) .. " ")
         :fg(style.bg):bg(THEME.status.separator_style.bg)
   end
 
@@ -88,7 +88,7 @@ local function setup(_, options)
   function Status:modified()
     local hovered = cx.active.current.hovered
     local cha = hovered.cha
-    local time = (cha.modified or 0) // 1
+    local time = (cha.mtime or 0) // 1
 
     return ui.Span(os.date("%Y-%m-%d %H:%M", time) .. " " .. current_separator_style.separator_open_thin .. " "):fg(
       THEME.status.separator_style.fg)
