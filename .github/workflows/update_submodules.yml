@@ -1,0 +1,38 @@
+name: Update Submodule
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - nvim_lua
+
+jobs:
+  build:
+    name: update-submodule
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout repository and checkout the nvim_lua branch
+      - name: Checkout repository on nvim_lua branch
+        uses: actions/checkout@v4
+        with:
+          ref: nvim_lua
+          submodules: 'recursive'
+
+      # Step 2: Configure Git
+      - name: Set up Git configuration
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      # Step 3: Update submodule
+      - name: Update submodule
+        run: |
+          git submodule update --remote --checkout
+
+      # Step 4: Check for changes and push
+      - name: Check for changes and push
+        run: |
+          git diff --exit-code || (git commit -am "Update submodule" && git push origin nvim_lua) 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
