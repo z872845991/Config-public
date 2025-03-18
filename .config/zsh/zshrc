@@ -1,13 +1,7 @@
-export PLUG_DIR=$HOME/.zim
-if [[ ! -d $PLUG_DIR ]]; then
-	curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-	rm ~/.zimrc
-	ln -s ~/.config/zsh/zimrc ~/.zimrc
-	zimfw install
-fi
+source ~/.config/zsh/env.zsh
+source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/plugins.zsh
 source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/mappings.zsh
 source ~/.config/zsh/prompts.zsh
 autopair-init
-
-source ~/.config/zsh/aliases.zsh
