@@ -1,4 +1,5 @@
 export LANG=en_US.UTF-8
+export LANGUAGE=en_US
 export PATH=$HOME/.local/bin:$PATH
 export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
