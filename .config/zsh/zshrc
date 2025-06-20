@@ -5,4 +5,5 @@ source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/mappings.zsh
 source ~/.config/zsh/prompts.zsh
 source ~/.config/zsh/copilot.zsh
+source ~/.config/zsh/func.zsh
 autopair-init
