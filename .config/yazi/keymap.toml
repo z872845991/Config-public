@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[manager]
+[mgr]
 prepend_keymap = [
 	{ on = "<Enter>", run = 'plugin smart-enter' },
 	{ on = "l", run = 'plugin smart-enter' },
@@ -66,6 +66,7 @@ keymap = [
 	# Open
 
 	{ on = "r", run = "open --interactive", desc = "Open selected files interactively" },
+	{ on = "R", run = "shell --block", desc = "Open with (interactive)..." },
 
 	# Create
 	{ on = "T", run = "create", desc = "Create a file (ends with / for directories)" },

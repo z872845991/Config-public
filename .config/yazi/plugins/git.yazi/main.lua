@@ -97,7 +97,7 @@ local clear_state = ya.sync(function(st)
 end)
 
 local function update_git_status(path)
-	ya.manager_emit("plugin", { "git"})	
+	ya.mgr_emit("plugin", { "git"})	
 end
 
 local is_in_git_dir = ya.sync(function(st)
@@ -109,7 +109,7 @@ local flush_empty_folder_status = ya.sync(function(st)
 	local folder = cx.active.current
 	if #folder.window == 0 then
 		clear_state()
-		ya.manager_emit("plugin", { "git", args = ya.quote(tostring(cwd))})		
+		ya.mgr_emit("plugin", { "git", ya.quote(tostring(cwd))})		
 	end
 end)
 
@@ -128,7 +128,7 @@ local M = {
 
 		local function linemode_git(self)
 			local f = self._file
-			local git_span = {}
+			local git_span = ui.Line{}
 			local git_status
 			if st.git_branch ~= nil and st.git_branch ~= "" then
 				local name = f.name:gsub("\r", "?", 1)
@@ -143,7 +143,7 @@ local M = {
 				end
 			
 				local color = set_status_color(git_status)
-				if f:is_hovered() then
+				if f.is_hovered then
 					git_span = (git_status ) and ui.Span(git_status .." ") or ui.Span("✓ ")	
 				else
 					git_span = (git_status) and ui.Span(git_status .." "):fg(color) or ui.Span("✓ "):fg(color)	
@@ -159,15 +159,15 @@ local M = {
 			if st.cwd ~= cwd then
 				st.cwd = cwd
 				clear_state()
-				ya.manager_emit("plugin", { "git"})		
+				ya.mgr_emit("plugin", { "git"})		
 			end
-			return {}				
+			return ui.Line{}				
 		end
 		Header:children_add(cwd_change_detect,8000,Header.LEFT)
 
 		-- add git branch status in header 
 		local function header_git(self)
-			return (st.git_branch and st.git_branch ~= "") and ui.Line {ui.Span(" <".. st.git_branch .. st.git_is_dirty .. ">"):fg("#f6a6da")} or ui.Line {}				
+			return (st.git_branch and st.git_branch ~= "") and ui.Line {ui.Span(" <".. st.git_branch .. st.git_is_dirty .. ">"):fg("#f6a6da")} or ui.Line{}				
 		end
 		if st.opt_show_brach then
 			Header:children_add(header_git,1400,Header.LEFT)
@@ -193,9 +193,9 @@ local M = {
 
 		output = result.stdout
 		if output ~= nil and  output ~= "" then
-			local split_output = string_split(output:sub(1,-2),"/")
+			local split_output = string_split(output:sub(1,-2),"refs/heads/")
 			
-			git_branch = split_output[3]
+			git_branch = split_output[2]
 		elseif is_in_git_dir() then
 			git_branch = nil
 		else
@@ -223,7 +223,8 @@ function M:fetch()
 	if path then
 		update_git_status(path)	
 	end
-	return 3
+	return false
 end
 
 return M
+
