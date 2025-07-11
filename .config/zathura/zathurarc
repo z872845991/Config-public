@@ -1,0 +1,4 @@
+set selection-clipboard clipboard 
+set synctex-editor-command "nvr --remote-silent +%l %f"
+set dbus-raise-window false
+
