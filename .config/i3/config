@@ -1,156 +1,15 @@
+# =============================================================================
+# i3wm 配置文件
+# =============================================================================
+
+# =============================================================================
+# §1. 变量定义 (Variables)
+# =============================================================================
+# 定义 Mod 键 (通常是 Win 键) 和 Alt 键
 set $mod Mod4
 set $alt Mod1
 
-font pango:Noto Sans Mono 16
-# 鼠标自动跟随焦点 / Focus window when mouse moves over it
-focus_follows_mouse yes        
-# 鼠标在输出之间切换时跳转 / Mouse warps across outputs
-mouse_warping output           
-
-# =======================================================================================================
-# 窗口边框与颜色 / Window Borders & Colors
-# 格式: border background text indicator child_border
-# =======================================================================================================
-# 当前聚焦窗口 / Focused window
-client.focused          #FF79A4 #6272A4 #F8F8F2 #6272A4 #FF79A4   
-# 非活动聚焦窗口 / Inactive focused window
-client.focused_inactive #44475A #44475A #F8F8F2 #44475A #44475A   
-# 未聚焦窗口 / Unfocused window
-client.unfocused        #282A36 #282A36 #BFBFBF #282A36 #282A36   
-# 紧急窗口 / Urgent window
-client.urgent           #44475A #FF5555 #F8F8F2 #FF5555 #FF5555   
-# 占位窗口 / Placeholder window
-client.placeholder      #282A36 #282A36 #F8F8F2 #282A36 #282A36   
-# 背景颜色 / Background color
-client.background       #F8F8F2                                  
-
-# =======================================================================================================
-# 自动启动程序 / Autostart Applications
-# =======================================================================================================
-
-# 通知守护进程 / Notification daemon
-exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
-# 显示器配置脚本 / Monitor setup script
-exec --no-startup-id ~/.config/i3/monitor_settings.sh 
-# 输入法 / Input method
-exec --no-startup-id fcitx
-# 截图工具 / Screenshot tool
-exec --no-startup-id flameshot 
-# Polybar 状态栏 / Polybar status bar
-exec_always --no-startup-id LC_ALL=C ~/.config/polybar/launch.sh 
-# Picom 合成器 / Compositor
-exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
-exec_always --no-startup-id variety
-# 隐藏闲置鼠标 / Hide idle mouse
-exec_always --no-startup-id unclutter --timeout 3 --jitter 10 --ignore-scrolling 
-# 桌面监控工具 Conky / Conky monitor
-exec_always --no-startup-id ~/.config/i3/conky.sh
-# 蓝牙管理 / Bluetooth manager
-exec_always --no-startup-id ~/.config/i3/blueberry.sh
-
-# =======================================================================================================
-# 屏幕亮度控制 / Screen Brightness
-# =======================================================================================================
-# 增加亮度 / Increase brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +3%   
-# 降低亮度 / Decrease brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 3%- 
-
-# =======================================================================================================
-# 音量与媒体键控制 / Volume & Media Keys
-# =======================================================================================================
-set $refresh_i3status killall -SIGUSR1 i3status
-
-# 音量+5% / Volume up
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status  
-# 音量-5% / Volume down
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status  
-# 静音 / Mute
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status        
-# 麦克风静音 / Mic mute
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status 
-
-# 播放/暂停 / Play or pause
-bindsym XF86AudioPlay exec playerctl play-pause 
-# 下一曲 / Next track
-bindsym XF86AudioNext exec playerctl next       
-# 上一曲 / Previous track
-bindsym XF86AudioPrev exec playerctl previous   
-
-# =======================================================================================================
-# 窗口管理快捷键 / Window Management Keybindings
-# =======================================================================================================
-floating_modifier $mod                   # 浮动窗口调整键 / Floating window modifier
-# 打开设置管理器 / Settings manager
-bindsym $mod+Shift+x exec --no-startup-id xfce4-settings-manager   
-
-# 打开终端 / Open terminal
-bindsym $mod+Return exec --no-startup-id alacritty;focus   
-# 打开无透明终端 / Terminal without opacity
-bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config/alacritty/alacritty_no_opacity.toml;focus 
-
-# 启动 Chrome / Launch Chrome
-bindsym $mod+c exec google-chrome-stable 
-# 启动 VS Code / Launch VS Code
-bindsym $mod+z exec code                 
-# 关闭窗口 / Kill window
-bindsym $mod+Shift+q kill                
-# 注销菜单 / Logout menu
-bindsym $mod+X exec --no-startup-id archlinux-logout 
-
-# 打开 dmenu / Launch dmenu
-bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"  
-# 自定义启动器 / Custom launcher
-bindsym $alt+Shift+d exec --no-startup-id ~/.config/i3/launcher/launcher.sh   
-# 屏幕录制 / Screen recorder
-bindsym $alt+Control+a exec --no-startup-id LC_ALL=C deepin-screen-recorder   
-
-# =====================================
-# 移动焦点 / Focus movement
-# =====================================
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# =====================================
-# 移动窗口 / Move windows
-# =====================================
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# =====================================
-# 分屏布局 / Split layout
-# =====================================
-# 水平分屏 / Horizontal split
-bindsym $mod+semicolon split h   
-# 垂直分屏 / Vertical split
-bindsym $mod+v split v           
-
-# =====================================
-# 布局切换 / Layout modes
-# =====================================
-# 全屏 / Fullscreen
-bindsym $mod+f fullscreen toggle 
-# 堆叠布局 / Stacking layout
-bindsym $mod+s layout stacking   
-# 标签页布局 / Tabbed layout
-bindsym $mod+w layout tabbed     
-# 在水平和垂直布局间切换 / Toggle split layout
-bindsym $mod+e layout toggle split 
-
-# 切换浮动 / Toggle floating
-bindsym $mod+Shift+space floating toggle 
-# 焦点切换 / Toggle focus mode
-bindsym $mod+space focus mode_toggle     
-# 聚焦父容器 / Focus parent
-bindsym $mod+a focus parent              
-
-# =======================================================================================================
-# 工作区 / Workspaces
-# =======================================================================================================
+# 定义工作区名称，方便后续引用
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -162,7 +21,125 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# 切换工作区 / Switch workspaces
+# =============================================================================
+# §2. 外观设置 (Appearance)
+# =============================================================================
+# 窗口标题和 i3bar 的默认字体
+font pango:Noto Sans Mono 16
+
+# 窗口边框和标题栏颜色
+# 格式: border  bground text    indicator child_border
+client.focused          #FF79A4 #6272A4 #F8F8F2 #6272A4   #FF79A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+client.background       #F8F8F2
+
+# 窗口边框样式
+# 所有窗口使用 2 像素的边框
+for_window [class="^.*"] border pixel 2
+# 新建的平铺窗口无边框
+new_window none
+# 新建的浮动窗口使用 normal 样式的边框
+new_float normal
+# 当窗口接触屏幕边缘时隐藏边框
+hide_edge_borders both
+
+# i3-gaps 设置
+gaps inner 3
+gaps outer 3
+smart_gaps on
+smart_borders on
+
+# =============================================================================
+# §3. 行为设置 (Behavior)
+# =============================================================================
+# 焦点跟随鼠标移动
+focus_follows_mouse yes
+# 当焦点转移时，鼠标指针不自动移动到新窗口的中心
+mouse_warping output
+# 使用 Mod 键 + 鼠标左键拖动浮动窗口
+floating_modifier $mod
+
+# =============================================================================
+# §4. 自启动程序 (Autostart)
+# =============================================================================
+# 通知服务
+exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
+# 显示器设置脚本
+exec --no-startup-id ~/.config/i3/monitor_settings.sh
+# 输入法框架
+exec --no-startup-id fcitx
+# 截图工具
+exec --no-startup-id flameshot
+# Polybar 状态栏
+exec_always --no-startup-id LC_ALL=C ~/.config/polybar/launch.sh
+# Picom 窗口合成器
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+# 壁纸管理器
+exec_always --no-startup-id variety
+# 自动隐藏闲置鼠标指针
+exec_always --no-startup-id unclutter --timeout 3 --jitter 10 --ignore-scrolling
+# Conky 系统监控
+exec_always --no-startup-id ~/.config/i3/conky.sh
+# 蓝牙管理器
+exec_always --no-startup-id ~/.config/i3/blueberry.sh
+
+# =============================================================================
+# §5. 快捷键绑定 (Keybindings)
+# =============================================================================
+
+# --- 应用程序启动 (Application Launchers) ---
+# 启动终端 (Alacritty)
+bindsym $mod+Return exec --no-startup-id alacritty;focus
+# 启动一个不透明的终端
+bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config/alacritty/alacritty_no_opacity.toml;focus
+# 启动 Chrome
+bindsym $mod+c exec google-chrome-stable
+# 启动 VS Code
+bindsym $mod+z exec code
+# 启动 dmenu (程序启动器)
+bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
+# 启动自定义启动器脚本
+bindsym $alt+Shift+d exec --no-startup-id ~/.config/i3/launcher/launcher.sh
+# 启动深度截图
+bindsym $alt+Control+a exec --no-startup-id LC_ALL=C deepin-screen-recorder
+# 启动 XFCE 设置管理器
+bindsym $mod+Shift+x exec --no-startup-id xfce4-settings-manager
+
+# --- 窗口管理 (Window Management) ---
+# 关闭当前窗口
+bindsym $mod+Shift+q kill
+# 窗口聚焦 (使用 Vim 风格的 hjkl 键)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+# 移动窗口 (使用 Vim 风格的 hjkl 键)
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+# 水平分割
+bindsym $mod+semicolon split h
+# 垂直分割
+bindsym $mod+v split v
+# 全屏切换
+bindsym $mod+f fullscreen toggle
+# 切换窗口布局 (stacking, tabbed, split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+# 浮动/平铺切换
+bindsym $mod+Shift+space floating toggle
+# 在浮动和平铺窗口间切换焦点
+bindsym $mod+space focus mode_toggle
+# 聚焦到父容器
+bindsym $mod+a focus parent
+
+# --- 工作区切换 (Workspace Switching) ---
+# 切换到指定工作区
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -173,8 +150,7 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
-
-# 移动窗口到工作区 / Move windows to workspaces
+# 将当前窗口移动到指定工作区
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -186,123 +162,101 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# =======================================================================================================
-# i3 控制命令 / i3 Control Commands
-# =======================================================================================================
-# 重新加载配置 / Reload config
-bindsym $mod+Shift+c reload   
-# 重启 i3 / Restart i3
-bindsym $mod+Shift+r restart  
-# 退出 i3 确认 / Exit i3 confirmation
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'" 
+# --- 系统控制 (System Controls) ---
+# 屏幕亮度调节
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +3%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 3%-
+# 音量调节
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# 媒体播放器控制
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
-# =======================================================================================================
-# 窗口大小调整模式 / Resize Mode
-# =======================================================================================================
+# --- i3 控制 (i3 Controls) ---
+# 重新加载配置文件
+bindsym $mod+Shift+c reload
+# 重启 i3
+bindsym $mod+Shift+r restart
+# 退出 i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '您确定要退出 i3 吗？' -B '是的, 退出' 'i3-msg exit'"
+# 登出菜单
+bindsym $mod+X exec --no-startup-id archlinux-logout
+
+# =============================================================================
+# §6. 模式定义 (Modes)
+# =============================================================================
+
+# --- 窗口大小调整模式 (Resize Mode) ---
+# 进入 resize 模式
+bindsym $mod+r mode "resize"
 mode "resize" {
-    # 当进入 resize 模式后生效 / Active in resize mode
+    # 使用 hjkl 调整窗口大小
+    bindsym h resize shrink width 5 px or 5 ppt
+    bindsym j resize grow height 5 px or 5 ppt
+    bindsym k resize shrink height 5 px or 5 ppt
+    bindsym l resize grow width 5 px or 5 ppt
 
-    # 使用 hjkl 键调整窗口大小 / Resize with hjkl keys
-    bindsym h resize shrink width 5 px or 5 ppt   # 左缩小 / Shrink left
-    bindsym j resize grow height 5 px or 5 ppt    # 下增加高度 / Grow down
-    bindsym k resize shrink height 5 px or 5 ppt  # 上缩小高度 / Shrink up
-    bindsym l resize grow width 5 px or 5 ppt     # 右增加宽度 / Grow right
-
-    # 退出 resize 模式 / Exit resize mode
+    # 按下 Enter 或 Escape 返回默认模式
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"  # 切换到 resize 模式 / Enter resize mode
-
-# =======================================================================================================
-# 新窗口与边框 / New Windows & Borders
-# =======================================================================================================
-# 新窗口无边框 / New windows without decoration
-new_window none
-# 浮动窗口使用正常边框 / Floating windows with normal border
-new_float normal
-# 隐藏边缘边框 / Hide borders on screen edges
-hide_edge_borders both   
-
-# =======================================================================================================
-# 窗口间距设置 / Window Gaps
-# =======================================================================================================
-# 内部间距 3px / Inner gaps (between windows)
-gaps inner 3          
-# 外部间距 3px / Outer gaps (between screen edge & windows)
-gaps outer 3          
-# 仅在有多个窗口时应用间距 / Apply gaps only with multiple windows
-smart_gaps on         
-# 仅在必要时显示边框 / Show borders only when necessary
-smart_borders on      
-
-# =======================================================================================================
-# Gaps 模式快捷键 / Gaps Control Modes
-# =======================================================================================================
+# --- Gaps 调整模式 (Gaps Mode) ---
 set $mode_gaps Gaps: (o) outer, (i) inner
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
 
-# 进入 gaps 控制模式 / Enter gaps control mode
-bindsym $mod+Shift+g mode "$mode_gaps"   
-
-# 主 gaps 模式选择内外间距 / Select inner or outer gaps
 mode "$mode_gaps" {
-        # 进入外间距模式 / Enter outer gaps mode
-        bindsym o      mode "$mode_gaps_outer"  
-        # 进入内间距模式 / Enter inner gaps mode
-        bindsym i      mode "$mode_gaps_inner"  
-        # 回车返回默认模式 / Exit with Enter
-        bindsym Return mode "default"           
-        # Esc 返回默认模式 / Exit with Esc
-        bindsym Escape mode "default"           
+    bindsym o mode "$mode_gaps_outer"
+    bindsym i mode "$mode_gaps_inner"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
-# 内间距调整 / Inner gaps control
 mode "$mode_gaps_inner" {
-        # 当前工作区内间距+5 / Increase inner gap
-        bindsym plus  gaps inner current plus 5    
-        # 当前工作区内间距-5 / Decrease inner gap
-        bindsym minus gaps inner current minus 5   
-        # 当前工作区内间距设为0 / Set inner gap=0
-        bindsym 0     gaps inner current set 0     
-
-        # 所有工作区内间距+5 / Increase inner gap (global)
-        bindsym Shift+plus  gaps inner all plus 5  
-        # 所有工作区内间距-5 / Decrease inner gap (global)
-        bindsym Shift+minus gaps inner all minus 5 
-        # 所有工作区内间距设为0 / Set inner gap=0 (global)
-        bindsym Shift+0     gaps inner all set 0   
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+    bindsym plus gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0 gaps inner current set 0
+    bindsym Shift+plus gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0 gaps inner all set 0
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
-# 外间距调整 / Outer gaps control
 mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
-        bindsym 0     gaps outer current set 0
-
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
-        bindsym Shift+0     gaps outer all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+    bindsym plus gaps outer current plus 5
+    bindsym minus gaps outer current minus 5
+    bindsym 0 gaps outer current set 0
+    bindsym Shift+plus gaps outer all plus 5
+    bindsym Shift+minus gaps outer all minus 5
+    bindsym Shift+0 gaps outer all set 0
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
-# =======================================================================================================
-# 窗口规则 / Window Rules
-# =======================================================================================================
-# 自动聚焦最近 urgent 窗口 / Focus urgent windows
-for_window [urgent=latest] focus                  
+# =============================================================================
+# §7. 窗口规则 (Window Rules)
+# =============================================================================
+# 自动聚焦到有紧急提示的窗口
+for_window [urgent=latest] focus
+
+# 针对特定应用的窗口规则 (自动聚焦或设为浮动)
 for_window [class="Vivaldi-stable"] focus
 for_window [class="Spotify"] focus
 for_window [class="Thunar"] focus
+for_window [class="Gnome-terminal"] focus
+for_window [class="Termite"] focus
+for_window [class="Terminator"] focus
+for_window [class="Urxvt"] focus
+for_window [class="Alacritty"] focus
 
-# 指定应用浮动或平铺 / Floating or tiling rules
 for_window [class="Arcolinux-welcome-app.py"] floating enable
 for_window [class="Arcolinux-calamares-tool.py"] floating enable
 for_window [class="Bleachbit"] floating disable
@@ -328,8 +282,6 @@ for_window [class="Wine"] floating disable
 for_window [class="Xfburn"] floating disable
 for_window [class="Xfce4-appfinder"] floating enable
 for_window [class="Xfce4-settings-manager"] floating disable
-
-# 特定窗口边框样式 / Specific border settings
 for_window [instance="script-fu"] border normal
 for_window [instance="variety"] floating disable
 for_window [title="Copying"] floating enable
@@ -340,12 +292,3 @@ for_window [window_role="pop-up"] floating enable
 for_window [window_role="^Preferences$"] floating enable
 for_window [window_role="setup"] floating enable
 
-# 终端聚焦 / Terminal focus
-for_window [class="Gnome-terminal"] focus
-for_window [class="Termite"] focus
-for_window [class="Terminator"] focus
-for_window [class="Urxvt"] focus
-for_window [class="Alacritty"] focus
-
-# 默认所有窗口边框宽度 / Default border size
-for_window [class="^.*"] border pixel 2
