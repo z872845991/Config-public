@@ -1,4 +1,4 @@
-# Yazi keymap - Ranger style key bindings
+# Yazi keymap - Ranger compatible key bindings
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
@@ -6,260 +6,287 @@
 prepend_keymap = [
 	{ on = "<Enter>", run = 'plugin smart-enter' },
 	{ on = "l", run = 'plugin smart-enter' },
+	# Bookmarks (ranger style: `<key> or '<key> to jump, m<key> to set)
+	{ on = ["`", "`"], run = "plugin yamb --args=jump_by_fzf", desc = "Jump to bookmark" },
+	{ on = ["'", "'"], run = "plugin yamb --args=jump_by_fzf", desc = "Jump to bookmark" },
 	{ on = ["`", "a"], run = "plugin yamb --args=save", desc = "Add bookmark" },
-	{ on = ["`", "'"], run = "plugin yamb --args=jump_by_fzf", desc = "Jump bookmark by fzf" },
-	{ on = ["`", "r"], run = "plugin yamb --args=delete_by_key", desc = "Delete bookmark by key" },
+	{ on = ["`", "r"], run = "plugin yamb --args=delete_by_key", desc = "Delete bookmark" },
 ]
 
 keymap = [
-	# ===== Basic Operations =====
-	{ on = "<Esc>", run = "escape", desc = "Exit visual mode/Deselect/Cancel search" },
-	{ on = "q", run = "close", desc = "Close current tab or quit" },
-	{ on = "Q", run = "quit --no-cwd-file", desc = "Force quit" },
+	# ===== Basic Operations (ranger style) =====
+	{ on = "<Esc>", run = "escape", desc = "Exit visual mode/clear selection/cancel" },
+	{ on = "q", run = "close", desc = "Close tab or quit" },
+	{ on = "Q", run = "quit --no-cwd-file", desc = "Quit all" },
 	{ on = ["Z", "Z"], run = "quit", desc = "Quit (ZZ)" },
-	{ on = ["Z", "Q"], run = "quit --no-cwd-file", desc = "Force quit (ZQ)" },
+	{ on = ["Z", "Q"], run = "quit --no-cwd-file", desc = "Quit without cwd (ZQ)" },
 
-	{ on = "R", run = "refresh", desc = "Refresh current directory" },
+	{ on = "R", run = "refresh", desc = "Reload cwd" },
+	{ on = "<C-r>", run = "refresh", desc = "Reset" },
 	{ on = "<C-l>", run = "refresh", desc = "Redraw window" },
-	{ on = "<C-c>", run = "escape", desc = "Cancel operation" },
+	{ on = "<C-c>", run = "escape", desc = "Abort" },
+	{ on = "~", run = "help", desc = "Toggle viewmode (help in yazi)" },
 
-	# ===== Navigation (Vim style) =====
-	{ on = "k", run = "arrow -1", desc = "Move up" },
-	{ on = "j", run = "arrow 1", desc = "Move down" },
-	{ on = "h", run = "leave", desc = "Go to parent directory" },
-	{ on = "l", run = "enter", desc = "Enter directory/Open file" },
+	{ on = "i", run = "peek", desc = "Display file" },
+	{ on = "<A-j>", run = "seek 5", desc = "Scroll preview down" },
+	{ on = "<A-k>", run = "seek -5", desc = "Scroll preview up" },
+	{ on = "?", run = "help", desc = "Help" },
+	{ on = "W", run = "tasks_show", desc = "Display log" },
+	{ on = "w", run = "tasks_show", desc = "Taskview open" },
+	{ on = "S", run = 'shell "$SHELL" --block --confirm', desc = "Open shell $SHELL" },
 
+	{ on = ":", run = "shell --interactive", desc = "Console" },
+	{ on = ";", run = "shell --interactive", desc = "Console" },
+	{ on = "!", run = "shell --interactive", desc = "Shell command" },
+	{ on = "s", run = "shell --interactive", desc = "Shell command" },
+	{ on = "@", run = "shell --interactive", desc = "Shell with selection" },
+	{ on = "r", run = "open --interactive", desc = "Open with" },
+	{ on = "f", run = "find --smart", desc = "Find (scout)" },
+	{ on = ["c", "d"], run = "cd --interactive", desc = "cd command" },
+
+	# ===== Linemode (M prefix, ranger style) =====
+	{ on = ["M", "f"], run = "linemode none", desc = "Linemode filename" },
+	{ on = ["M", "i"], run = "linemode size", desc = "Linemode fileinfo" },
+	{ on = ["M", "m"], run = "linemode mtime", desc = "Linemode mtime" },
+	{ on = ["M", "h"], run = "linemode mtime", desc = "Linemode humanreadablemtime" },
+	{ on = ["M", "p"], run = "linemode perm", desc = "Linemode permissions" },
+	{ on = ["M", "s"], run = "linemode size", desc = "Linemode sizemtime" },
+	{ on = ["M", "H"], run = "linemode size", desc = "Linemode sizehumanreadablemtime" },
+	{ on = ["M", "o"], run = "linemode owner", desc = "Linemode owner" },
+
+	# ===== Tagging / Marking (ranger style) =====
+	{ on = "t", run = "toggle", desc = "Tag toggle (toggle selection)" },
+	{ on = ["u", "t"], run = "escape --select", desc = "Tag remove (clear selection)" },
+	{ on = "<Space>", run = ["toggle", "arrow 1"], desc = "Mark files toggle" },
+	{ on = "v", run = "toggle_all", desc = "Mark all toggle (invert)" },
+	{ on = ["u", "v"], run = "escape --select", desc = "Unmark all" },
+	{ on = "V", run = "visual_mode", desc = "Toggle visual mode" },
+	{ on = ["u", "V"], run = "visual_mode --unset", desc = "Toggle visual mode reverse" },
+
+	# ===== Midnight Commander bindings (F keys) =====
+	{ on = "<F1>", run = "help", desc = "Help" },
+	{ on = "<F2>", run = "rename --cursor=end", desc = "Rename append" },
+	{ on = "<F3>", run = "peek", desc = "Display file" },
+	{ on = "<F4>", run = "open", desc = "Edit" },
+	{ on = "<F5>", run = "yank", desc = "Copy" },
+	{ on = "<F6>", run = "yank --cut", desc = "Cut" },
+	{ on = "<F7>", run = "create --dir", desc = "Mkdir" },
+	{ on = "<F8>", run = "remove", desc = "Delete" },
+	{ on = "<F10>", run = "quit", desc = "Exit" },
+
+	# ===== Navigation (VIM-like, ranger style) =====
 	{ on = "<Up>", run = "arrow -1", desc = "Move up" },
 	{ on = "<Down>", run = "arrow 1", desc = "Move down" },
-	{ on = "<Left>", run = "leave", desc = "Go to parent directory" },
-	{ on = "<Right>", run = "enter", desc = "Enter directory/Open file" },
+	{ on = "<Left>", run = "leave", desc = "Move left" },
+	{ on = "<Right>", run = "enter", desc = "Move right" },
+	{ on = "<Home>", run = "arrow -99999999", desc = "Move to top" },
+	{ on = "<End>", run = "arrow 99999999", desc = "Move to bottom" },
+	{ on = "<PageDown>", run = "arrow 100%", desc = "Page down" },
+	{ on = "<PageUp>", run = "arrow -100%", desc = "Page up" },
+	{ on = "<Enter>", run = "enter", desc = "Move right / Open" },
+	{ on = "<Insert>", run = "create", desc = "Touch" },
 
-	{ on = ["g", "g"], run = "arrow -99999999", desc = "Go to top" },
-	{ on = "G", run = "arrow 99999999", desc = "Go to bottom" },
-	{ on = "<Home>", run = "arrow -99999999", desc = "Go to top" },
-	{ on = "<End>", run = "arrow 99999999", desc = "Go to bottom" },
+	{ on = "k", run = "arrow -1", desc = "Move up" },
+	{ on = "j", run = "arrow 1", desc = "Move down" },
+	{ on = "h", run = "leave", desc = "Move left" },
+	{ on = "l", run = "enter", desc = "Move right" },
+	{ on = ["g", "g"], run = "arrow -99999999", desc = "Move to top" },
+	{ on = "G", run = "arrow 99999999", desc = "Move to bottom" },
+	{ on = "<C-f>", run = "arrow 100%", desc = "Page down" },
+	{ on = "<C-b>", run = "arrow -100%", desc = "Page up" },
 
-	# Half page/Full page scroll
 	{ on = "J", run = "arrow 50%", desc = "Half page down" },
 	{ on = "K", run = "arrow -50%", desc = "Half page up" },
 	{ on = "<C-d>", run = "arrow 50%", desc = "Half page down" },
 	{ on = "<C-u>", run = "arrow -50%", desc = "Half page up" },
-	{ on = "<C-f>", run = "arrow 100%", desc = "Page down" },
-	{ on = "<C-b>", run = "arrow -100%", desc = "Page up" },
-	{ on = "<PageDown>", run = "arrow 100%", desc = "Page down" },
-	{ on = "<PageUp>", run = "arrow -100%", desc = "Page up" },
 
-	# History navigation
-	{ on = "H", run = "back", desc = "Go back in history" },
-	{ on = "L", run = "forward", desc = "Go forward in history" },
+	# ===== Jumping around (ranger style) =====
+	{ on = "H", run = "back", desc = "History go -1" },
+	{ on = "L", run = "forward", desc = "History go 1" },
+	{ on = "]", run = "parent_arrow 1", desc = "Move parent 1" },
+	{ on = "[", run = "parent_arrow -1", desc = "Move parent -1" },
 
-	# Parent directory navigation
-	{ on = "[", run = "parent_arrow -1", desc = "Parent directory up" },
-	{ on = "]", run = "parent_arrow 1", desc = "Parent directory down" },
+	{ on = ["g", "h"], run = "cd ~", desc = "cd ~" },
+	{ on = ["g", "e"], run = "cd /etc", desc = "cd /etc" },
+	{ on = ["g", "u"], run = "cd /usr", desc = "cd /usr" },
+	{ on = ["g", "d"], run = "cd /dev", desc = "cd /dev" },
+	{ on = ["g", "l"], run = "cd -r .", desc = "cd -r ." },
+	{ on = ["g", "L"], run = "reveal", desc = "cd -r %f" },
+	{ on = ["g", "o"], run = "cd /opt", desc = "cd /opt" },
+	{ on = ["g", "v"], run = "cd /var", desc = "cd /var" },
+	{ on = ["g", "m"], run = "cd /media", desc = "cd /media" },
+	{ on = ["g", "i"], run = "cd /run/media", desc = "cd /run/media/$USER" },
+	{ on = ["g", "M"], run = "cd /mnt", desc = "cd /mnt" },
+	{ on = ["g", "s"], run = "cd /srv", desc = "cd /srv" },
+	{ on = ["g", "p"], run = "cd /tmp", desc = "cd /tmp" },
+	{ on = ["g", "r"], run = "cd /", desc = "cd /" },
+	{ on = ["g", "/"], run = "cd /", desc = "cd /" },
+	{ on = ["g", "c"], run = "cd ~/.config", desc = "cd ~/.config" },
+	{ on = ["g", "D"], run = "cd ~/Downloads", desc = "cd ~/Downloads" },
+	{ on = ["g", "<Space>"], run = "cd --interactive", desc = "cd interactive" },
 
-	# ===== Preview Scroll =====
-	{ on = "<A-j>", run = "seek 5", desc = "Scroll preview down" },
-	{ on = "<A-k>", run = "seek -5", desc = "Scroll preview up" },
+	# ===== External Programs (ranger style) =====
+	{ on = "E", run = "open", desc = "Edit" },
+	{ on = ["d", "u"], run = "shell --block 'du --max-depth=1 -h --apparent-size'", desc = "du" },
+	{ on = ["d", "U"], run = "shell --block 'du --max-depth=1 -h --apparent-size | sort -rh'", desc = "du sorted" },
+	{ on = ["y", "p"], run = "copy path", desc = "Yank path" },
+	{ on = ["y", "d"], run = "copy dirname", desc = "Yank dir" },
+	{ on = ["y", "n"], run = "copy filename", desc = "Yank name" },
+	{ on = ["y", "."], run = "copy name_without_ext", desc = "Yank name without extension" },
 
-	# ===== Selection/Mark =====
-	{ on = "<Space>", run = ["toggle", "arrow 1"], desc = "Toggle selection and move down" },
-	{ on = "v", run = "toggle_all", desc = "Invert selection" },
-	{ on = ["u", "v"], run = "escape --select", desc = "Deselect all" },
-	{ on = "V", run = "visual_mode", desc = "Enter visual mode" },
-	{ on = ["u", "V"], run = "visual_mode --unset", desc = "Visual mode (unset)" },
-	{ on = "<C-a>", run = "toggle_all --state=on", desc = "Select all" },
+	# ===== Filesystem Operations (ranger style) =====
+	{ on = "=", run = "shell --interactive 'chmod '", desc = "chmod" },
 
-	# ===== Search =====
-	{ on = "/", run = "find --smart", desc = "Search files" },
-	{ on = "n", run = "find_arrow", desc = "Next match" },
-	{ on = "N", run = "find_arrow --previous", desc = "Previous match" },
-	{ on = "f", run = "filter --smart", desc = "Filter files (ranger: find)" },
-	{ on = "F", run = "search rg", desc = "Search content with ripgrep" },
-	{ on = "<C-s>", run = "escape --search", desc = "Cancel search" },
-
-	# ===== FZF/Zoxide =====
-	{ on = ["z", "o"], run = "plugin zoxide", desc = "Zoxide jump" },
-	{ on = ["z", "z"], run = "plugin zoxide", desc = "Zoxide jump" },
-	{ on = ["c", "d"], run = "cd --interactive", desc = "Interactive cd" },
-
-	# ===== File Operations =====
-	# Copy (yank)
-	{ on = ["y", "y"], run = "yank", desc = "Copy files" },
-	{ on = ["u", "y"], run = "unyank", desc = "Cancel copy" },
-	{ on = ["y", "a"], run = "yank", desc = "Append to copy" },
-
-	# Cut
-	{ on = ["d", "d"], run = "yank --cut", desc = "Cut files" },
-	{ on = ["u", "d"], run = "unyank", desc = "Cancel cut" },
-	{ on = ["d", "a"], run = "yank --cut", desc = "Append to cut" },
-
-	# Paste
-	{ on = ["p", "p"], run = "paste", desc = "Paste" },
-	{ on = ["p", "o"], run = "paste --force", desc = "Paste (overwrite)" },
-	{ on = ["p", "P"], run = "paste --force", desc = "Paste (overwrite)" },
-	{ on = ["p", "l"], run = "link", desc = "Symlink (absolute path)" },
-	{ on = ["p", "L"], run = "link --relative", desc = "Symlink (relative path)" },
-	{ on = ["p", "h"], run = "hardlink", desc = "Hardlink" },
-
-	# Delete
-	{ on = ["d", "D"], run = "remove --permanently", desc = "Delete permanently" },
-	{ on = ["d", "T"], run = "remove", desc = "Move to trash" },
-
-	# ===== Copy Path =====
-	{ on = ["y", "p"], run = "copy path", desc = "Copy full path" },
-	{ on = ["y", "d"], run = "copy dirname", desc = "Copy directory path" },
-	{ on = ["y", "n"], run = "copy filename", desc = "Copy filename" },
-	{ on = ["y", "."], run = "copy name_without_ext", desc = "Copy filename (no extension)" },
-
-	# ===== Rename =====
 	{ on = ["c", "w"], run = "rename --empty=all", desc = "Rename (clear)" },
-	{ on = "a", run = "rename --cursor=end", desc = "Rename (cursor at end)" },
-	{ on = "A", run = "rename --cursor=end", desc = "Rename (cursor at end)" },
-	{ on = "I", run = "rename --cursor=start", desc = "Rename (cursor at start)" },
+	{ on = "a", run = "rename --cursor=end", desc = "Rename append" },
+	{ on = "A", run = "rename --cursor=end", desc = "Rename" },
+	{ on = "I", run = "rename --cursor=start", desc = "Rename prepend" },
 
-	# ===== Create =====
-	{ on = ["<Insert>"], run = "create", desc = "Create file" },
-	{ on = ["<F7>"], run = "create --dir", desc = "Create directory" },
+	{ on = ["p", "p"], run = "paste", desc = "Paste" },
+	{ on = ["p", "o"], run = "paste --force", desc = "Paste overwrite" },
+	{ on = ["p", "O"], run = "paste --force", desc = "Paste overwrite" },
+	{ on = ["p", "P"], run = "paste", desc = "Paste append" },
+	{ on = ["p", "l"], run = "link", desc = "Paste symlink" },
+	{ on = ["p", "L"], run = "link --relative", desc = "Paste symlink relative" },
+	{ on = ["p", "h", "l"], run = "hardlink", desc = "Paste hardlink" },
 
-	# ===== Open With =====
-	{ on = "i", run = "peek", desc = "Preview file" },
-	{ on = "r", run = "open --interactive", desc = "Open with program" },
-	{ on = "E", run = "open", desc = "Open/Edit with default program" },
-	{ on = "<Enter>", run = "open", desc = "Open" },
-	{ on = "<F3>", run = "peek", desc = "Preview file" },
-	{ on = "<F4>", run = "open", desc = "Edit file" },
+	{ on = ["d", "D"], run = "remove --permanently", desc = "Delete" },
+	{ on = ["d", "T"], run = "remove", desc = "Trash" },
 
-	# ===== Shell =====
-	{ on = "S", run = 'shell "$SHELL" --block --confirm', desc = "Open Shell" },
-	{ on = ":", run = "shell --interactive", desc = "Run command" },
-	{ on = ";", run = "shell --interactive", desc = "Run command" },
-	{ on = "!", run = "shell --interactive", desc = "Run Shell command" },
-	{ on = "s", run = "shell --interactive", desc = "Run Shell command" },
+	{ on = ["d", "d"], run = "yank --cut", desc = "Cut" },
+	{ on = ["u", "d"], run = "unyank", desc = "Uncut" },
+	{ on = ["d", "a"], run = "yank --cut", desc = "Cut mode=add" },
 
-	# ===== Help/Log =====
-	{ on = "?", run = "help", desc = "Show help" },
-	{ on = "<F1>", run = "help", desc = "Show help" },
-	{ on = "W", run = "tasks_show", desc = "Show task log" },
-	{ on = "w", run = "tasks_show", desc = "Show task manager" },
+	{ on = ["y", "y"], run = "yank", desc = "Copy" },
+	{ on = ["u", "y"], run = "unyank", desc = "Uncut (cancel copy)" },
+	{ on = ["y", "a"], run = "yank", desc = "Copy mode=add" },
 
-	# ===== Directory Jump (g prefix, ranger style) =====
-	{ on = ["g", "h"], run = "cd ~", desc = "Home ~" },
-	{ on = ["g", "e"], run = "cd /etc", desc = "/etc" },
-	{ on = ["g", "u"], run = "cd /usr", desc = "/usr" },
-	{ on = ["g", "d"], run = "cd /dev", desc = "/dev" },
-	{ on = ["g", "l"], run = "cd -r .", desc = "Current directory root" },
-	{ on = ["g", "o"], run = "cd /opt", desc = "/opt" },
-	{ on = ["g", "v"], run = "cd /var", desc = "/var" },
-	{ on = ["g", "m"], run = "cd /media", desc = "/media" },
-	{ on = ["g", "i"], run = "cd /run/media", desc = "/run/media" },
-	{ on = ["g", "M"], run = "cd /mnt", desc = "/mnt" },
-	{ on = ["g", "s"], run = "cd /srv", desc = "/srv" },
-	{ on = ["g", "p"], run = "cd /tmp", desc = "/tmp" },
-	{ on = ["g", "r"], run = "cd /", desc = "Root /" },
-	{ on = ["g", "/"], run = "cd /", desc = "Root /" },
-	{ on = ["g", "c"], run = "cd ~/.config", desc = "Config directory" },
-	{ on = ["g", "D"], run = "cd ~/Downloads", desc = "Downloads directory" },
-	{ on = ["g", "<Space>"], run = "cd --interactive", desc = "Interactive jump" },
+	# ===== Searching (ranger style) =====
+	{ on = "/", run = "find --smart", desc = "Search" },
+	{ on = "n", run = "find_arrow", desc = "Search next" },
+	{ on = "N", run = "find_arrow --previous", desc = "Search next forward=False" },
 
-	# ===== Sort (o prefix, ranger style) =====
-	{ on = ["o", "r"], run = "sort --reverse", desc = "Reverse sort" },
-	{ on = ["o", "s"], run = ["sort size --reverse=no", "linemode size"], desc = "Sort by size" },
-	{ on = ["o", "S"], run = ["sort size --reverse", "linemode size"], desc = "Sort by size (reverse)" },
-	{ on = ["o", "n"], run = "sort natural --reverse=no", desc = "Natural sort" },
-	{ on = ["o", "N"], run = "sort natural --reverse", desc = "Natural sort (reverse)" },
-	{ on = ["o", "m"], run = ["sort mtime --reverse=no", "linemode mtime"], desc = "Sort by modified time" },
-	{ on = ["o", "M"], run = ["sort mtime --reverse", "linemode mtime"], desc = "Sort by modified time (reverse)" },
-	{ on = ["o", "c"], run = ["sort btime --reverse=no", "linemode ctime"], desc = "Sort by created time" },
-	{ on = ["o", "C"], run = ["sort btime --reverse", "linemode ctime"], desc = "Sort by created time (reverse)" },
-	{ on = ["o", "e"], run = "sort extension --reverse=no", desc = "Sort by extension" },
-	{ on = ["o", "E"], run = "sort extension --reverse", desc = "Sort by extension (reverse)" },
-	{ on = ["o", "a"], run = "sort alphabetical --reverse=no", desc = "Sort alphabetically" },
-	{ on = ["o", "A"], run = "sort alphabetical --reverse", desc = "Sort alphabetically (reverse)" },
-	{ on = ["o", "t"], run = "sort extension --reverse=no", desc = "Sort by type" },
-	{ on = ["o", "T"], run = "sort extension --reverse", desc = "Sort by type (reverse)" },
+	# ===== Tabs (ranger style) =====
+	{ on = "<C-w>", run = "tab_close", desc = "Tab close" },
+	{ on = "<Tab>", run = "tab_switch 1 --relative", desc = "Tab move 1" },
+	{ on = "<S-Tab>", run = "tab_switch -1 --relative", desc = "Tab move -1" },
+	{ on = "<A-Right>", run = "tab_switch 1 --relative", desc = "Tab move 1" },
+	{ on = "<A-Left>", run = "tab_switch -1 --relative", desc = "Tab move -1" },
+	{ on = ["g", "t"], run = "tab_switch 1 --relative", desc = "Tab move 1" },
+	{ on = ["g", "T"], run = "tab_switch -1 --relative", desc = "Tab move -1" },
+	{ on = ["g", "n"], run = "tab_create --current", desc = "Tab new" },
+	{ on = ["g", "c"], run = "tab_close", desc = "Tab close" },
+	{ on = ["u", "q"], run = "tab_close", desc = "Tab restore (close in yazi)" },
+	{ on = "<A-1>", run = "tab_switch 0", desc = "Tab open 1" },
+	{ on = "<A-2>", run = "tab_switch 1", desc = "Tab open 2" },
+	{ on = "<A-3>", run = "tab_switch 2", desc = "Tab open 3" },
+	{ on = "<A-4>", run = "tab_switch 3", desc = "Tab open 4" },
+	{ on = "<A-5>", run = "tab_switch 4", desc = "Tab open 5" },
+	{ on = "<A-6>", run = "tab_switch 5", desc = "Tab open 6" },
+	{ on = "<A-7>", run = "tab_switch 6", desc = "Tab open 7" },
+	{ on = "<A-8>", run = "tab_switch 7", desc = "Tab open 8" },
+	{ on = "<A-9>", run = "tab_switch 8", desc = "Tab open 9" },
+	{ on = "<A-r>", run = "tab_swap 1", desc = "Tab shift 1" },
+	{ on = "<A-l>", run = "tab_swap -1", desc = "Tab shift -1" },
+
+	# ===== Sorting (o prefix, ranger style) =====
+	{ on = ["o", "r"], run = "sort --reverse", desc = "Sort reverse toggle" },
+	{ on = ["o", "z"], run = "sort random --reverse=no", desc = "Sort random" },
+	{ on = ["o", "s"], run = ["sort size --reverse=no", "linemode size"], desc = "Sort size" },
+	{ on = ["o", "b"], run = "sort alphabetical --reverse=no", desc = "Sort basename" },
+	{ on = ["o", "n"], run = "sort natural --reverse=no", desc = "Sort natural" },
+	{ on = ["o", "m"], run = ["sort mtime --reverse=no", "linemode mtime"], desc = "Sort mtime" },
+	{ on = ["o", "c"], run = ["sort btime --reverse=no", "linemode ctime"], desc = "Sort ctime" },
+	{ on = ["o", "a"], run = ["sort mtime --reverse=no", "linemode mtime"], desc = "Sort atime" },
+	{ on = ["o", "t"], run = "sort extension --reverse=no", desc = "Sort type" },
+	{ on = ["o", "e"], run = "sort extension --reverse=no", desc = "Sort extension" },
+
+	{ on = ["o", "S"], run = ["sort size --reverse", "linemode size"], desc = "Sort size reverse" },
+	{ on = ["o", "B"], run = "sort alphabetical --reverse", desc = "Sort basename reverse" },
+	{ on = ["o", "N"], run = "sort natural --reverse", desc = "Sort natural reverse" },
+	{ on = ["o", "M"], run = ["sort mtime --reverse", "linemode mtime"], desc = "Sort mtime reverse" },
+	{ on = ["o", "C"], run = ["sort btime --reverse", "linemode ctime"], desc = "Sort ctime reverse" },
+	{ on = ["o", "A"], run = ["sort mtime --reverse", "linemode mtime"], desc = "Sort atime reverse" },
+	{ on = ["o", "T"], run = "sort extension --reverse", desc = "Sort type reverse" },
+	{ on = ["o", "E"], run = "sort extension --reverse", desc = "Sort extension reverse" },
+
+	{ on = ["d", "c"], run = "plugin --sync max-preview", desc = "Get cumulative size" },
 
 	# ===== Settings (z prefix, ranger style) =====
-	{ on = ["z", "h"], run = "hidden toggle", desc = "Toggle hidden files" },
-	{ on = "<C-h>", run = "hidden toggle", desc = "Toggle hidden files" },
-	{ on = "<Backspace>", run = "hidden toggle", desc = "Toggle hidden files" },
-	{ on = ["z", "f"], run = "filter --smart", desc = "Filter files" },
-	{ on = ["z", "p"], run = "spot", desc = "Toggle preview" },
+	{ on = ["z", "c"], run = "spot", desc = "Toggle collapse_preview" },
+	{ on = ["z", "d"], run = "sort --dir-first", desc = "Toggle sort_directories_first" },
+	{ on = ["z", "h"], run = "hidden toggle", desc = "Toggle show_hidden" },
+	{ on = "<C-h>", run = "hidden toggle", desc = "Toggle show_hidden" },
+	{ on = "<Backspace>", run = "hidden toggle", desc = "Toggle show_hidden" },
+	{ on = ["z", "i"], run = "spot", desc = "Toggle preview_images" },
+	{ on = ["z", "p"], run = "spot", desc = "Toggle preview_files" },
+	{ on = ["z", "P"], run = "spot", desc = "Toggle preview_directories" },
+	{ on = ["z", "s"], run = "sort --ignore-case", desc = "Toggle sort_case_insensitive" },
+	{ on = ["z", "v"], run = "spot", desc = "Toggle use_preview_script" },
+	{ on = ["z", "f"], run = "filter --smart", desc = "Filter" },
+	{ on = ["z", "z"], run = "filter --smart", desc = "Filter (same as zf)" },
 
-	# ===== Display Mode (M prefix, ranger linemode) =====
-	{ on = ["M", "s"], run = "linemode size", desc = "Show size" },
-	{ on = ["M", "p"], run = "linemode perm", desc = "Show permissions" },
-	{ on = ["M", "m"], run = "linemode mtime", desc = "Show modified time" },
-	{ on = ["M", "c"], run = "linemode ctime", desc = "Show created time" },
-	{ on = ["M", "o"], run = "linemode owner", desc = "Show owner" },
-	{ on = ["M", "n"], run = "linemode none", desc = "Show no extra info" },
+	# ===== Filter stack (. prefix, ranger style) =====
+	{ on = [".", "d"], run = "filter --smart dir", desc = "Filter type d" },
+	{ on = [".", "f"], run = "filter --smart file", desc = "Filter type f" },
+	{ on = [".", "n"], run = "filter --smart", desc = "Filter name" },
+	{ on = [".", "c"], run = "escape --filter", desc = "Filter clear" },
+	{ on = [".", "."], run = "filter --smart", desc = "Filter show" },
 
-	# ===== Tabs =====
-	{ on = ["g", "n"], run = "tab_create --current", desc = "New tab" },
-	{ on = ["g", "c"], run = "tab_close", desc = "Close tab" },
-	{ on = ["g", "t"], run = "tab_switch 1 --relative", desc = "Next tab" },
-	{ on = ["g", "T"], run = "tab_switch -1 --relative", desc = "Previous tab" },
-	{ on = "<Tab>", run = "tab_switch 1 --relative", desc = "Next tab" },
-	{ on = "<S-Tab>", run = "tab_switch -1 --relative", desc = "Previous tab" },
-	{ on = "<C-w>", run = "tab_close", desc = "Close tab" },
-	{ on = ["u", "q"], run = "tab_close", desc = "Close tab (uq)" },
+	# ===== Bookmarks (ranger style) =====
+	# Using yamb plugin, configured in prepend_keymap
+	# `<any> = enter_bookmark, '<any> = enter_bookmark
+	# m<any> = set_bookmark, um<any> = unset_bookmark
 
-	{ on = "<A-1>", run = "tab_switch 0", desc = "Switch to tab 1" },
-	{ on = "<A-2>", run = "tab_switch 1", desc = "Switch to tab 2" },
-	{ on = "<A-3>", run = "tab_switch 2", desc = "Switch to tab 3" },
-	{ on = "<A-4>", run = "tab_switch 3", desc = "Switch to tab 4" },
-	{ on = "<A-5>", run = "tab_switch 4", desc = "Switch to tab 5" },
-	{ on = "<A-6>", run = "tab_switch 5", desc = "Switch to tab 6" },
-	{ on = "<A-7>", run = "tab_switch 6", desc = "Switch to tab 7" },
-	{ on = "<A-8>", run = "tab_switch 7", desc = "Switch to tab 8" },
-	{ on = "<A-9>", run = "tab_switch 8", desc = "Switch to tab 9" },
-
-	# Number keys switch tabs
-	{ on = "1", run = "tab_switch 0", desc = "Switch to tab 1" },
-	{ on = "2", run = "tab_switch 1", desc = "Switch to tab 2" },
-	{ on = "3", run = "tab_switch 2", desc = "Switch to tab 3" },
-	{ on = "4", run = "tab_switch 3", desc = "Switch to tab 4" },
-	{ on = "5", run = "tab_switch 4", desc = "Switch to tab 5" },
-	{ on = "6", run = "tab_switch 5", desc = "Switch to tab 6" },
-	{ on = "7", run = "tab_switch 6", desc = "Switch to tab 7" },
-	{ on = "8", run = "tab_switch 7", desc = "Switch to tab 8" },
-	{ on = "9", run = "tab_switch 8", desc = "Switch to tab 9" },
-
-	# ===== Midnight Commander style (F keys) =====
-	{ on = "<F1>", run = "help", desc = "Help" },
-	{ on = "<F2>", run = "rename --cursor=end", desc = "Rename" },
-	{ on = "<F3>", run = "peek", desc = "Preview" },
-	{ on = "<F4>", run = "open", desc = "Edit" },
-	{ on = "<F5>", run = "yank", desc = "Copy" },
-	{ on = "<F6>", run = "yank --cut", desc = "Cut" },
-	{ on = "<F7>", run = "create --dir", desc = "Create directory" },
-	{ on = "<F8>", run = "remove", desc = "Delete" },
-	{ on = "<F10>", run = "quit", desc = "Quit" },
+	# ===== Dragon Drop =====
+	{ on = "<C-n>", run = "shell --confirm 'dragon-drop -a -x $@'", desc = "Dragon drop" },
 
 	# ===== Lazygit =====
 	{ on = "<C-g>", run = "shell --confirm --block lazygit", desc = "Lazygit" },
-
-	# ===== Directory Size =====
-	{ on = ["d", "c"], run = "plugin --sync max-preview", desc = "Calculate directory size" },
-
-	# ===== Bookmarks (using yamb plugin) =====
-	# Configured in prepend_keymap
 ]
 
 [tasks]
 
 keymap = [
-	{ on = "<Esc>", run = "close", desc = "Close task manager" },
-	{ on = "q", run = "close", desc = "Close task manager" },
+	# Movement (ranger taskview style)
+	{ on = "<Up>", run = "arrow -1", desc = "Taskview move up" },
+	{ on = "<Down>", run = "arrow 1", desc = "Taskview move down" },
+	{ on = "<Home>", run = "arrow -99999999", desc = "Taskview move to top" },
+	{ on = "<End>", run = "arrow 99999999", desc = "Taskview move to bottom" },
+	{ on = "<PageDown>", run = "arrow 100%", desc = "Taskview page down" },
+	{ on = "<PageUp>", run = "arrow -100%", desc = "Taskview page up" },
+	{ on = "<C-d>", run = "arrow 50%", desc = "Taskview half page down" },
+	{ on = "<C-u>", run = "arrow -50%", desc = "Taskview half page up" },
 
 	{ on = "k", run = "arrow -1", desc = "Move up" },
 	{ on = "j", run = "arrow 1", desc = "Move down" },
-	{ on = "<Up>", run = "arrow -1", desc = "Move up" },
-	{ on = "<Down>", run = "arrow 1", desc = "Move down" },
+	{ on = "<C-p>", run = "arrow -1", desc = "Move up" },
+	{ on = "<C-n>", run = "arrow 1", desc = "Move down" },
+	{ on = "<Enter>", run = "arrow 1", desc = "Move down" },
+	{ on = ["g", "g"], run = "arrow -99999999", desc = "Go to top" },
+	{ on = "G", run = "arrow 99999999", desc = "Go to bottom" },
+	{ on = "u", run = "arrow -50%", desc = "Half page up" },
+	{ on = "n", run = "arrow 100%", desc = "Page down" },
+	{ on = "p", run = "arrow -100%", desc = "Page up" },
+	{ on = "b", run = "arrow -100%", desc = "Page up" },
+	{ on = "<C-f>", run = "arrow 100%", desc = "Page down" },
+	{ on = "<C-b>", run = "arrow -100%", desc = "Page up" },
 
+	# Task operations
+	{ on = "J", run = "inspect", desc = "Task move priority down" },
+	{ on = "K", run = "inspect", desc = "Task move priority up" },
+	{ on = ["d", "d"], run = "cancel", desc = "Task remove" },
+	{ on = "<Delete>", run = "cancel", desc = "Task remove" },
 	{ on = "<Enter>", run = "inspect", desc = "Inspect task" },
 	{ on = "x", run = "cancel", desc = "Cancel task" },
-	{ on = ["d", "d"], run = "cancel", desc = "Cancel task (dd)" },
-	{ on = "<Delete>", run = "cancel", desc = "Cancel task" },
+
+	# Basic
+	{ on = "<C-l>", run = "close", desc = "Redraw window" },
+	{ on = "<Esc>", run = "close", desc = "Taskview close" },
+	{ on = "q", run = "close", desc = "Close" },
+	{ on = "Q", run = "close", desc = "Close" },
+	{ on = "w", run = "close", desc = "Close" },
+	{ on = "<C-c>", run = "close", desc = "Close" },
 
 	{ on = "<F1>", run = "help", desc = "Help" },
 ]
@@ -286,62 +313,70 @@ keymap = [
 [input]
 
 keymap = [
-	{ on = "<C-c>", run = "close", desc = "Cancel input" },
-	{ on = "<Enter>", run = "close --submit", desc = "Confirm input" },
-	{ on = "<Esc>", run = "escape", desc = "Return to normal mode or cancel" },
+	# Basic (ranger console style)
+	{ on = "<Tab>", run = "complete", desc = "Tab completion" },
+	{ on = "<S-Tab>", run = "complete --previous", desc = "Tab completion reverse" },
+	{ on = "<Esc>", run = "escape", desc = "Close/escape" },
+	{ on = "<Enter>", run = "close --submit", desc = "Execute" },
+	{ on = "<C-l>", run = "close", desc = "Redraw" },
+	{ on = "<C-c>", run = "close", desc = "Close" },
+	{ on = "<C-j>", run = "close --submit", desc = "Execute" },
 
-	# Mode switch
+	# Move around (ranger console style)
+	{ on = "<Up>", run = "history --previous", desc = "History move -1" },
+	{ on = "<Down>", run = "history --next", desc = "History move 1" },
+	{ on = "<Left>", run = "move -1", desc = "Move left" },
+	{ on = "<Right>", run = "move 1", desc = "Move right" },
+	{ on = "<Home>", run = "move -999", desc = "Move to start" },
+	{ on = "<End>", run = "move 999", desc = "Move to end" },
+	{ on = "<A-b>", run = "backward", desc = "Move word left" },
+	{ on = "<A-f>", run = "forward", desc = "Move word right" },
+	{ on = "<A-Left>", run = "backward", desc = "Move word left" },
+	{ on = "<A-Right>", run = "forward", desc = "Move word right" },
+
+	# Line Editing (ranger console style)
+	{ on = "<Backspace>", run = "backspace", desc = "Delete char left" },
+	{ on = "<Delete>", run = "backspace --under", desc = "Delete char right" },
+	{ on = "<C-w>", run = "kill backward", desc = "Delete word" },
+	{ on = "<A-d>", run = "kill forward", desc = "Delete word forward" },
+	{ on = "<C-k>", run = "kill eol", desc = "Delete to end" },
+	{ on = "<C-u>", run = "kill bol", desc = "Delete to start" },
+	{ on = "<C-y>", run = "paste", desc = "Paste" },
+
+	# Emacs style (ranger console style)
+	{ on = "<C-g>", run = "close", desc = "Close" },
+	{ on = "<C-p>", run = "history --previous", desc = "History up" },
+	{ on = "<C-n>", run = "history --next", desc = "History down" },
+	{ on = "<C-b>", run = "move -1", desc = "Move left" },
+	{ on = "<C-f>", run = "move 1", desc = "Move right" },
+	{ on = "<C-a>", run = "move -999", desc = "Move to start" },
+	{ on = "<C-e>", run = "move 999", desc = "Move to end" },
+	{ on = "<C-d>", run = "backspace --under", desc = "Delete char right" },
+	{ on = "<C-h>", run = "backspace", desc = "Delete char left" },
+
+	# Vim mode support
 	{ on = "i", run = "insert", desc = "Insert mode" },
 	{ on = "a", run = "insert --append", desc = "Append mode" },
 	{ on = "I", run = ["move -999", "insert"], desc = "Insert at start" },
 	{ on = "A", run = ["move 999", "insert --append"], desc = "Append at end" },
 	{ on = "v", run = "visual", desc = "Visual mode" },
 	{ on = "V", run = ["move -999", "visual", "move 999"], desc = "Select all" },
-
-	# Movement
 	{ on = "h", run = "move -1", desc = "Move left" },
 	{ on = "l", run = "move 1", desc = "Move right" },
-	{ on = "<Left>", run = "move -1", desc = "Move left" },
-	{ on = "<Right>", run = "move 1", desc = "Move right" },
-	{ on = "<Home>", run = "move -999", desc = "Start of line" },
-	{ on = "<End>", run = "move 999", desc = "End of line" },
-	{ on = "0", run = "move -999", desc = "Start of line" },
-	{ on = "$", run = "move 999", desc = "End of line" },
-
-	# Word movement
+	{ on = "0", run = "move -999", desc = "Move to start" },
+	{ on = "$", run = "move 999", desc = "Move to end" },
 	{ on = "b", run = "backward", desc = "Previous word" },
 	{ on = "w", run = "forward", desc = "Next word" },
-	{ on = "<A-b>", run = "backward", desc = "Previous word" },
-	{ on = "<A-f>", run = "forward", desc = "Next word" },
-
-	# Delete
-	{ on = "<Backspace>", run = "backspace", desc = "Delete previous character" },
-	{ on = "<Delete>", run = "backspace --under", desc = "Delete current character" },
-	{ on = "<C-h>", run = "backspace", desc = "Delete previous character" },
-	{ on = "<C-d>", run = "backspace --under", desc = "Delete current character" },
-
-	# Line editing
-	{ on = "<C-u>", run = "kill bol", desc = "Delete to start of line" },
-	{ on = "<C-k>", run = "kill eol", desc = "Delete to end of line" },
-	{ on = "<C-w>", run = "kill backward", desc = "Delete previous word" },
-	{ on = "<A-d>", run = "kill forward", desc = "Delete next word" },
-
-	# Emacs style
-	{ on = "<C-a>", run = "move -999", desc = "Start of line" },
-	{ on = "<C-e>", run = "move 999", desc = "End of line" },
-	{ on = "<C-b>", run = "move -1", desc = "Move left" },
-	{ on = "<C-f>", run = "move 1", desc = "Move right" },
 
 	# Cut/Copy/Paste
 	{ on = "d", run = "delete --cut", desc = "Cut selection" },
-	{ on = "D", run = ["delete --cut", "move 999"], desc = "Cut to end of line" },
+	{ on = "D", run = ["delete --cut", "move 999"], desc = "Cut to end" },
 	{ on = "c", run = "delete --cut --insert", desc = "Cut and insert" },
-	{ on = "C", run = ["delete --cut --insert", "move 999"], desc = "Cut to end of line and insert" },
-	{ on = "x", run = ["delete --cut", "move 1 --in-operating"], desc = "Cut current character" },
+	{ on = "C", run = ["delete --cut --insert", "move 999"], desc = "Cut to end and insert" },
+	{ on = "x", run = ["delete --cut", "move 1 --in-operating"], desc = "Cut char" },
 	{ on = "y", run = "yank", desc = "Copy selection" },
 	{ on = "p", run = "paste", desc = "Paste" },
 	{ on = "P", run = "paste --before", desc = "Paste before" },
-	{ on = "<C-y>", run = "paste", desc = "Paste" },
 
 	# Undo/Redo
 	{ on = "u", run = "undo", desc = "Undo" },
@@ -357,7 +392,7 @@ keymap = [
 	{ on = "<Esc>", run = "close", desc = "Cancel completion" },
 	{ on = "<Tab>", run = "close --submit", desc = "Confirm completion" },
 	{ on = "<S-Tab>", run = "arrow -1", desc = "Previous item" },
-	{ on = "<Enter>", run = ["close --submit", "close_input --submit"], desc = "Confirm completion and input" },
+	{ on = "<Enter>", run = ["close --submit", "close_input --submit"], desc = "Confirm and submit" },
 
 	{ on = "<C-k>", run = "arrow -1", desc = "Move up" },
 	{ on = "<C-j>", run = "arrow 1", desc = "Move down" },
@@ -372,9 +407,9 @@ keymap = [
 [help]
 
 keymap = [
-	{ on = "<Esc>", run = "escape", desc = "Clear filter or close help" },
-	{ on = "q", run = "close", desc = "Close help" },
-	{ on = "<C-c>", run = "close", desc = "Close help" },
+	{ on = "<Esc>", run = "escape", desc = "Clear filter or close" },
+	{ on = "q", run = "close", desc = "Close" },
+	{ on = "<C-c>", run = "close", desc = "Close" },
 
 	# Navigation
 	{ on = "k", run = "arrow -1", desc = "Move up" },
@@ -386,6 +421,8 @@ keymap = [
 	{ on = "G", run = "arrow 99999999", desc = "Go to bottom" },
 
 	# Filter
-	{ on = "/", run = "filter", desc = "Filter help items" },
-	{ on = "f", run = "filter", desc = "Filter help items" },
+	{ on = "/", run = "filter", desc = "Filter" },
+	{ on = "f", run = "filter", desc = "Filter" },
+
+	{ on = "<F1>", run = "help", desc = "Help" },
 ]
