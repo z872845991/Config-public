@@ -17,7 +17,7 @@ limit=$((100 - inc))
 maxlimit=$((maxvol - inc))
 
 reloadSink() {
-    active_sink=$(pacmd list-sinks | awk '/* index:/{print $3}')
+    active_sink=$(pacmd list-sinks | awk '/\* index:/{print $3}')
 }
 
 function volUp {
