@@ -28,7 +28,7 @@ set $ws10 "10"
 font pango:Noto Sans Mono 16
 
 # 窗口边框和标题栏颜色
-# 格式: border  bground text    indicator child_border
+# class                 border  bground text    indicator child_border
 client.focused          #FF79A4 #6272A4 #F8F8F2 #6272A4   #FF79A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
@@ -43,7 +43,7 @@ for_window [class="^.*"] border pixel 2
 new_window none
 # 新建的浮动窗口使用 normal 样式的边框
 new_float normal
-# 当窗口接触屏幕边缘时隐藏边框
+# 当窗口接触屏幕边缘时隐藏边框 (例如全屏时)
 hide_edge_borders both
 
 # i3-gaps 设置
@@ -57,54 +57,59 @@ smart_borders on
 # =============================================================================
 # 焦点跟随鼠标移动
 focus_follows_mouse yes
+
 # 当焦点转移时，鼠标指针不自动移动到新窗口的中心
 mouse_warping output
+
 # 使用 Mod 键 + 鼠标左键拖动浮动窗口
 floating_modifier $mod
 
 # =============================================================================
 # §4. 自启动程序 (Autostart)
 # =============================================================================
+# 启动 fcitx5 (中文输入法框架)
+exec --no-startup-id fcitx5
+# 启动 flameshot (截图工具)
+exec --no-startup-id flameshot &
 # 通知服务
-exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
+exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd 
 # 显示器设置脚本
 exec --no-startup-id ~/.config/i3/monitor_settings.sh
-# 输入法框架
-exec --no-startup-id fcitx
-# 截图工具
-exec --no-startup-id flameshot
-# Polybar 状态栏
-exec_always --no-startup-id LC_ALL=C ~/.config/polybar/launch.sh
-# Picom 窗口合成器
+# 启动 Polybar
+exec_always --no-startup-id LC_ALL=C ~/.config/polybar/launch.sh 
+# 启动 Picom (窗口合成器，用于透明等特效)
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
-# 壁纸管理器
-exec_always --no-startup-id variety
-# 自动隐藏闲置鼠标指针
+# 启动 Variety (壁纸管理器)
+exec --no-startup-id variety
+# 启动 Unclutter (超时后自动隐藏鼠标指针)
 exec_always --no-startup-id unclutter --timeout 3 --jitter 10 --ignore-scrolling
-# Conky 系统监控
-exec_always --no-startup-id ~/.config/i3/conky.sh
-# 蓝牙管理器
+# 启动 Conky
+exec_always --no-startup-id ~/.config/i3/conky.sh 
+
 exec_always --no-startup-id ~/.config/i3/blueberry.sh
 
 # =============================================================================
-# §5. 快捷键绑定 (Keybindings)
+# §6. 快捷键绑定 (Keybindings)
 # =============================================================================
 
 # --- 应用程序启动 (Application Launchers) ---
 # 启动终端 (Alacritty)
 bindsym $mod+Return exec --no-startup-id alacritty;focus
 # 启动一个不透明的终端
-bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config/alacritty/alacritty_no_opacity.toml;focus
+bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config/alacritty/notransparent.toml;focus
 # 启动 Chrome
-bindsym $mod+c exec google-chrome-stable
+bindsym $mod+c exec LANGUAGE=zh_CN google-chrome-stable
+# bindsym $mod+c exec firefox
 # 启动 VS Code
 bindsym $mod+z exec code
 # 启动 dmenu (程序启动器)
-bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
+bindsym $mod+d exec "dmenu_run -i -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-14' -p 'dmenu%'"
+# 启动 Rofi
+bindsym $mod+Shift+d exec --no-startup-id "rofi -show ts -modi ts"
 # 启动自定义启动器脚本
 bindsym $alt+Shift+d exec --no-startup-id ~/.config/i3/launcher/launcher.sh
-# 启动深度截图
-bindsym $alt+Control+a exec --no-startup-id LC_ALL=C deepin-screen-recorder
+# 启动 Flameshot GUI 截图
+bindsym $alt+Control+a exec --no-startup-id LANGUAGE=zh_CN flameshot gui
 # 启动 XFCE 设置管理器
 bindsym $mod+Shift+x exec --no-startup-id xfce4-settings-manager
 
@@ -162,6 +167,9 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
 # --- 系统控制 (System Controls) ---
 # 屏幕亮度调节
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +3%
@@ -201,9 +209,10 @@ mode "resize" {
     bindsym k resize shrink height 5 px or 5 ppt
     bindsym l resize grow width 5 px or 5 ppt
 
-    # 按下 Enter 或 Escape 返回默认模式
+    # 按下 Enter, Escape, 或 $mod+r 返回默认模式
     bindsym Return mode "default"
     bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
 # --- Gaps 调整模式 (Gaps Mode) ---
@@ -242,7 +251,7 @@ mode "$mode_gaps_outer" {
 }
 
 # =============================================================================
-# §7. 窗口规则 (Window Rules)
+# §8. 窗口规则 (Window Rules)
 # =============================================================================
 # 自动聚焦到有紧急提示的窗口
 for_window [urgent=latest] focus
