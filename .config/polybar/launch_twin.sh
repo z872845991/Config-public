@@ -7,9 +7,8 @@
 # Tip : There are other interesting fonts that provide icons like nerd-fonts-complete
 # --log=error
 # Terminate already running bar instances
-#
-# killall -q polybar
 polybar-msg cmd quit
+# killall -q polybar
 
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar > /dev/null; do sleep 1; done
@@ -17,16 +16,17 @@ while pgrep -u $UID -x polybar > /dev/null; do sleep 1; done
 desktop=$(echo $DESKTOP_SESSION)
 count=$(xrandr --query | grep " connected" | cut -d" " -f1 | wc -l)
 
-
+echo "$desktop"
 case $desktop in
-
     i3|/usr/share/xsessions/i3)
     if type "xrandr" > /dev/null; then
-      for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-        MONITOR=$m polybar --reload mainbar-i3 -c ~/.config/polybar/config &
-      done
+		MONITOR=HDMI-1 polybar --reload mainbar-i3 -c ~/.config/polybar/config_2.ini &
+		MONITOR=DP-1 polybar --reload mainbar-i3 -c ~/.config/polybar/config.ini &
+		# for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+		# 	MONITOR=$m polybar --reload mainbar-i3 -c ~/.config/polybar/config.ini &
+		# done
     else
-    polybar --reload mainbar-i3 -c ~/.config/polybar/config &
+		polybar --reload mainbar-i3 -c ~/.config/polybar/config.ini &
     fi
     # second polybar at bottom
     # if type "xrandr" > /dev/null; then
