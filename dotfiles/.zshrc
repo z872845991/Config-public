@@ -1,10 +1,45 @@
-export LC_CTYPE=en_US.UTF-8
-export LC_LANG=en_US.UTF-8
-export LC_MESSAGES=en_US.UTF-8
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 # Start configuration added by Zim install {{{
 #
 # User configuration sourced by interactive shells
 #
+# anyrouter
+export ANTHROPIC_AUTH_TOKEN=sk-kN1lu1bmlfZhQZ4z9kjr2YrLooGxK7x2EvR1xhJu2RH2kDtW
+export ANTHROPIC_BASE_URL=https://anyrouter.top
+export ANTHROPIC_MODEL=claude-opus-4-6
+# yunwu
+# export ANTHROPIC_AUTH_TOKEN="sk-qMVu86Elc9L67nY7lJ9pj4tv7pqapWkMNLUnOkqjQwQBNh25"
+# export ANTHROPIC_BASE_URL="https://api3.wlai.vip"
+# export ANTHROPIC_MODEL=claude-opus-4-6
+
+#honoursoft
+# export ANTHROPIC_AUTH_TOKEN="sk-YlvKxn8Nj4ISuzFFMSYyzDzly7zSajuxbJQgSl4pJV6y8Y2f"
+# export ANTHROPIC_AUTH_TOKEN="sk-WTyKJqIllafmixzwXzyAoEB7nrt8dLJ5Pn8pNYcWNRcBdPMb"
+# export ANTHROPIC_BASE_URL="https://cc.honoursoft.cn"
+
+# # fox 
+# export ANTHROPIC_AUTH_TOKEN="sk-ant-oat01-qzOpNk93oiu9EXImfEmparjhYcNkNHmm3onqiiUNOnvv9ivxrGx5SSgV4TNAGt-wLjcduJbAKRq-83QZ8X_7njMR_9H3QAA"
+# export ANTHROPIC_BASE_URL="https://code.newcli.com/claude/aws"
+
+# yunwu gemini
+# export GOOGLE_GEMINI_BASE_URL="https://yunwu.ai"
+# export GEMINI_API_KEY="sk-jKz8yJHFRa5czx6p639XpBHpLfjI20qv4BBXahz69qH2JJ8h"
+# export GEMINI_MODEL="gemini-3.1-pro-preview"
+
+# right code claude
+# export ANTHROPIC_BASE_URL=https://right.codes/claude 
+# export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
+# export ANTHROPIC_AUTH_TOKEN=sk-629a2c92545f4c268eb62abe7bbd0122
+
+# right code gemini
+export GOOGLE_GEMINI_BASE_URL="https://right.codes/gemini"
+export GEMINI_API_KEY="sk-3f1aa2d77e1b44f3a1dd9b73b7d164ca"
+export GEMINI_MODEL="gemini-3-pro-preview"
 
 # -----------------
 # Zsh configuration
@@ -108,8 +143,8 @@ if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
   fi
 fi
 # Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
-if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init -q
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init
 fi
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
@@ -131,24 +166,29 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
-source <(fzf --zsh)
-POWERLEVEL9k_DISABLE_CONFIGURATION_WIZARD=true
+source ~/.config/zsh/zshrc
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-setopt nonomatch # if not match, don't returen error info.
-setopt globdots # match hidden files
-alias ra="yazi"
-alias lz="lazygit"
-alias rg="rg --sort path"
-alias tsb="trans :zh -shell -brief"
-alias ts="trans :zh -shell"
-alias xp="xclip -selection clipboard"
-alias lls="logo-ls"
-alias vim="nvim"
-
-
-
-source ~/.config/zsh/fzf.zsh
-source ~/.config/zsh/mappings.zsh
-source ~/.config/zsh/prompts.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+(( ! ${+functions[p10k]} )) || p10k finalize
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/jesse/.anaconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/jesse/.anaconda/etc/profile.d/conda.sh" ]; then
+        . "/home/jesse/.anaconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/jesse/.anaconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+export UB_OUTPUT=wayland
+export PATH="$HOME/.npm-global/bin:$PATH"
