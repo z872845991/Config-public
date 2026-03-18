@@ -7,40 +7,6 @@ fi
 # Start configuration added by Zim install {{{
 #
 # User configuration sourced by interactive shells
-#
-# anyrouter
-export ANTHROPIC_AUTH_TOKEN=sk-kN1lu1bmlfZhQZ4z9kjr2YrLooGxK7x2EvR1xhJu2RH2kDtW
-export ANTHROPIC_BASE_URL=https://anyrouter.top
-export ANTHROPIC_MODEL=claude-opus-4-6
-# yunwu
-# export ANTHROPIC_AUTH_TOKEN="sk-qMVu86Elc9L67nY7lJ9pj4tv7pqapWkMNLUnOkqjQwQBNh25"
-# export ANTHROPIC_BASE_URL="https://api3.wlai.vip"
-# export ANTHROPIC_MODEL=claude-opus-4-6
-
-#honoursoft
-# export ANTHROPIC_AUTH_TOKEN="sk-YlvKxn8Nj4ISuzFFMSYyzDzly7zSajuxbJQgSl4pJV6y8Y2f"
-# export ANTHROPIC_AUTH_TOKEN="sk-WTyKJqIllafmixzwXzyAoEB7nrt8dLJ5Pn8pNYcWNRcBdPMb"
-# export ANTHROPIC_BASE_URL="https://cc.honoursoft.cn"
-
-# # fox 
-# export ANTHROPIC_AUTH_TOKEN="sk-ant-oat01-qzOpNk93oiu9EXImfEmparjhYcNkNHmm3onqiiUNOnvv9ivxrGx5SSgV4TNAGt-wLjcduJbAKRq-83QZ8X_7njMR_9H3QAA"
-# export ANTHROPIC_BASE_URL="https://code.newcli.com/claude/aws"
-
-# yunwu gemini
-# export GOOGLE_GEMINI_BASE_URL="https://yunwu.ai"
-# export GEMINI_API_KEY="sk-jKz8yJHFRa5czx6p639XpBHpLfjI20qv4BBXahz69qH2JJ8h"
-# export GEMINI_MODEL="gemini-3.1-pro-preview"
-
-# right code claude
-# export ANTHROPIC_BASE_URL=https://right.codes/claude 
-# export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
-# export ANTHROPIC_AUTH_TOKEN=sk-629a2c92545f4c268eb62abe7bbd0122
-
-# right code gemini
-export GOOGLE_GEMINI_BASE_URL="https://right.codes/gemini"
-export GEMINI_API_KEY="sk-3f1aa2d77e1b44f3a1dd9b73b7d164ca"
-export GEMINI_MODEL="gemini-3-pro-preview"
-
 # -----------------
 # Zsh configuration
 # -----------------
