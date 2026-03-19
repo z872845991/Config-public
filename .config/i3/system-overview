@@ -62,7 +62,7 @@ conky.config = {
 
 	extra_newline = false,						-- extra newline at the end - for asesome's wiboxes
 	format_human_readable = true,				-- KiB, MiB rather then number of bytes
-	font = 'NOto Sans CJK SC:size=12:regular',
+	font = 'Noto Sans CJK SC:size=12:regular',
 	max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
 	max_user_text = 16384,						-- max text in conky default 16384
 	override_utf8_locale = true,				-- force UTF8 requires xft
@@ -134,7 +134,8 @@ ${else}${cpu cpu0}${endif}${endif}%${alignr}${freq_g}${color}
 #
 ${color orange}${voffset 2}${hr 1}
 #${font WenQuanYi ZenHei:size=12}${alignc}${color green}${execpi 300 curl wttr.in/冀州 --silent --max-time 3}${font ubuntu:size=10.5}
-${font WenQuanYi ZenHei:size=12}${alignc}${color pink}${execpi 300 curl wttr.in/dantu?T0 --silent --max-time 3}${font}
+# ${font WenQuanYi ZenHei:size=12}${alignc}${color pink}${execpi 300 curl wttr.in/lingchuan0?T0 --silent --max-time 3}${font}
+${font MesloLGS NF:size=12}${alignc}${color pink}${execpi 300 curl wttr.in/lingchuan0?mT0 --silent --max-time 3}${font}
 
 ${color1}${hr}${color}
 ${color1}${execi 6000 lsb_release -d | grep 'Descr'|awk {'print $2 " " $3" " $4" " $5'}}${alignr}${execi 6000 lsb_release -a | grep 'Release'|awk {'print $2""$3""$4""$5'}}${color}

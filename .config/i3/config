@@ -1,8 +1,4 @@
 # =============================================================================
-# i3wm 配置文件
-# =============================================================================
-
-# =============================================================================
 # §1. 变量定义 (Variables)
 # =============================================================================
 # 定义 Mod 键 (通常是 Win 键) 和 Alt 键
@@ -43,8 +39,6 @@ for_window [class="^.*"] border pixel 2
 new_window none
 # 新建的浮动窗口使用 normal 样式的边框
 new_float normal
-# 当窗口接触屏幕边缘时隐藏边框 (例如全屏时)
-hide_edge_borders both
 
 # i3-gaps 设置
 gaps inner 3
@@ -67,26 +61,44 @@ floating_modifier $mod
 # =============================================================================
 # §4. 自启动程序 (Autostart)
 # =============================================================================
+# 显示器设置脚本
+exec --no-startup-id ~/.config/i3/monitor_settings.sh
 # 启动 fcitx5 (中文输入法框架)
 exec --no-startup-id fcitx5
 # 启动 flameshot (截图工具)
 exec --no-startup-id flameshot &
 # 通知服务
 exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd 
-# 显示器设置脚本
-exec --no-startup-id ~/.config/i3/monitor_settings.sh
+# caffeine
+exec --no-startup-id caffeine-indicator
 # 启动 Polybar
 exec_always --no-startup-id LC_ALL=C ~/.config/polybar/launch.sh 
 # 启动 Picom (窗口合成器，用于透明等特效)
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 # 启动 Variety (壁纸管理器)
-exec --no-startup-id variety
+exec --no-startup-id sleep 2 && variety
 # 启动 Unclutter (超时后自动隐藏鼠标指针)
 exec_always --no-startup-id unclutter --timeout 3 --jitter 10 --ignore-scrolling
 # 启动 Conky
 exec_always --no-startup-id ~/.config/i3/conky.sh 
 
-exec_always --no-startup-id ~/.config/i3/blueberry.sh
+# exec_always --no-startup-id ~/.config/i3/blueberry.sh
+
+# =============================================================================
+# §5. 多显示器与工作区分配 (Multi-monitor & Workspaces)
+# =============================================================================
+# 将工作区分配到指定的显示器
+workspace $ws1 output DP-1
+workspace $ws2 output DP-1
+workspace $ws3 output DP-1
+workspace $ws4 output DP-1
+workspace $ws5 output DP-1
+
+workspace $ws6 output HDMI-1
+workspace $ws7 output HDMI-1
+workspace $ws8 output HDMI-1
+workspace $ws9 output HDMI-1
+workspace $ws10 output HDMI-1
 
 # =============================================================================
 # §6. 快捷键绑定 (Keybindings)
@@ -94,9 +106,9 @@ exec_always --no-startup-id ~/.config/i3/blueberry.sh
 
 # --- 应用程序启动 (Application Launchers) ---
 # 启动终端 (Alacritty)
-bindsym $mod+Return exec --no-startup-id alacritty;focus
+bindsym $mod+Return exec --no-startup-id alacritty
 # 启动一个不透明的终端
-bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config/alacritty/notransparent.toml;focus
+bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config/alacritty/notransparent.toml
 # 启动 Chrome
 bindsym $mod+c exec LANGUAGE=zh_CN google-chrome-stable
 # bindsym $mod+c exec firefox
@@ -196,7 +208,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '您确定要退出 i3 吗？
 bindsym $mod+X exec --no-startup-id archlinux-logout
 
 # =============================================================================
-# §6. 模式定义 (Modes)
+# §7. 模式定义 (Modes)
 # =============================================================================
 
 # --- 窗口大小调整模式 (Resize Mode) ---
@@ -300,4 +312,3 @@ for_window [title="^Terminator Preferences$"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="^Preferences$"] floating enable
 for_window [window_role="setup"] floating enable
-
