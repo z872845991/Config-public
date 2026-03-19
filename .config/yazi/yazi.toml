@@ -63,7 +63,7 @@ download = [
 	{ run = "ya emit download %S", desc = "Download" },
 ]
 pdf = [
-	{ run = "zathura %s", desc = "Extract here" },
+	{ run = "zathura %s1", desc = "Extract here" },
 ]
 
 [open]
