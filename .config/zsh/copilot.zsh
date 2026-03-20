@@ -72,7 +72,6 @@ ghcs() {
 	shift "$((OPTIND-1))"
 
 	TMPFILE="$(mktemp -t gh-copilotXXXXXX)"
-	trap 'rm -f "$TMPFILE"' EXIT
 	if GH_DEBUG="$GH_DEBUG" GH_HOST="$GH_HOST" gh copilot suggest -t "$TARGET" "$@" --shell-out "$TMPFILE"; then
 		if [ -s "$TMPFILE" ]; then
 			FIXED_CMD="$(cat $TMPFILE)"
@@ -81,8 +80,10 @@ ghcs() {
 			eval "$FIXED_CMD"
 		fi
 	else
+		command rm -f "$TMPFILE"
 		return 1
 	fi
+	command rm -f "$TMPFILE"
 }
 
 ghce() {

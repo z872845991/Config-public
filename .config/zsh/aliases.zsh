@@ -1,10 +1,10 @@
-alias ra="ranger"
+alias ra="yazi"
 alias lz="lazygit"
 alias rg="rg --sort path"
 alias tsb="trans :zh -shell -brief"
 alias ts="trans :zh -shell"
 alias xp="xclip -selection clipboard"
-alias lls="logo-ls"
+alias lls="eza --sort type"
 alias td="todoist-cli q"
 unalias z
 z() {

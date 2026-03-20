@@ -1,9 +1,10 @@
 source ~/.config/zsh/env.zsh
 source ~/.config/zsh/aliases.zsh
 source ~/.config/zsh/plugins.zsh
-source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/mappings.zsh
 source ~/.config/zsh/prompts.zsh
 source ~/.config/zsh/copilot.zsh
+source ~/.config/zsh/tmux.zsh
 source ~/.config/zsh/func.zsh
+source ~/.config/zsh/fzf.zsh
 autopair-init
