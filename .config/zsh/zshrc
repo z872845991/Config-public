@@ -1,3 +1,4 @@
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 source ~/.config/zsh/env.zsh
 source ~/.config/zsh/plugins.zsh
 source ~/.config/zsh/aliases.zsh
@@ -6,11 +7,14 @@ source ~/.config/zsh/copilot.zsh
 source ~/.config/zsh/tmux.zsh
 source ~/.config/zsh/func.zsh
 source ~/.config/zsh/mappings.zsh
-autopair-init
+
+(( ${+functions[autopair-init]} )) && autopair-init
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.config/zsh/fzf.zsh
+
+bindkey -v
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 (( ! ${+functions[p10k]} )) || p10k finalize
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
