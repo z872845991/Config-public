@@ -62,14 +62,13 @@ function fix_ctrl_p() {
   bindkey -M emacs '^P' fzf-file-widget
   bindkey -M viins '^P' fzf-file-widget
 }
-
 add-zsh-hook precmd fix_ctrl_p
+
 function fix_ctrl_t() {
   bindkey -M emacs '^T' fzf-cd-widget
   bindkey -M viins '^T' fzf-cd-widget
 }
-
-add-zsh-hook precmd fix_ctrl_p
+add-zsh-hook precmd fix_ctrl_t
 
 # ╔══════════════════════════════════════════════════════════════╗
 # ║                   Search Functions                         ║
