@@ -1,6 +1,6 @@
 export PLUG_DIR=$HOME/.zim
 if [[ ! -d $PLUG_DIR ]]; then
-    if [[ -f ~/.zim ]]; then
+    if [[ -f ~/.zimrc ]]; then
         rm ~/.zimrc
     fi
 	ln -s ~/.config/zsh/zimrc ~/.zimrc
