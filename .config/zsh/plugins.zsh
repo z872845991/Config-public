@@ -1,9 +1,10 @@
 export PLUG_DIR=$HOME/.zim
 if [[ ! -d $PLUG_DIR ]]; then
-	curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-	rm ~/.zimrc
+    if [[ -f ~/.zim ]]; then
+        rm ~/.zimrc
+    fi
 	ln -s ~/.config/zsh/zimrc ~/.zimrc
-	zimfw install
+	curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
 fi
 
 if [[ ! -d $HOME/.fzf ]]; then

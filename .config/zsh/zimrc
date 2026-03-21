@@ -1,4 +1,5 @@
 zmodule romkatv/powerlevel10k --use degit
+zmodule agkozak/zsh-z
 zmodule hlissner/zsh-autopair
 zmodule environment
 zmodule git
@@ -16,5 +17,4 @@ zmodule zsh-users/zsh-history-substring-search
 zmodule zdharma-continuum/fast-syntax-highlighting
 zmodule supercrabtree/k
 zmodule pabloariasal/zfm
-zmodule agkozak/zsh-z
 zmodule Aloxaf/fzf-tab

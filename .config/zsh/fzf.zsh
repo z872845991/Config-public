@@ -56,8 +56,20 @@ fzf-redraw-prompt() {
 zle -N fzf-redraw-prompt
 
 # from ~/.fzf/shell/key-bindings.zsh
-bindkey '^p' fzf-file-widget
-bindkey '^t' fzf-cd-widget
+autoload -Uz add-zsh-hook
+
+function fix_ctrl_p() {
+  bindkey -M emacs '^P' fzf-file-widget
+  bindkey -M viins '^P' fzf-file-widget
+}
+
+add-zsh-hook precmd fix_ctrl_p
+function fix_ctrl_t() {
+  bindkey -M emacs '^T' fzf-cd-widget
+  bindkey -M viins '^T' fzf-cd-widget
+}
+
+add-zsh-hook precmd fix_ctrl_p
 
 # ╔══════════════════════════════════════════════════════════════╗
 # ║                   Search Functions                         ║
