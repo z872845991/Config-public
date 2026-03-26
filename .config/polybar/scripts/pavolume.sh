@@ -4,7 +4,7 @@ osd='no'
 inc='2'
 capvol='no'
 maxvol='200'
-autosync='yes'
+autosync='no'
 
 curStatus="no"
 active_sink=""
