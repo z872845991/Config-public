@@ -89,6 +89,8 @@ rules = [
 	{ mime = "application/pdf", use = [ "pdf", "open" ] },
     # CSV
     { url = "*.csv", use = [ "edit", "reveal", ] },
+    # toml
+    { url = "*.toml", use = [ "edit", "reveal", ] },
 	# Fallback
 	{ url = "*", use = [ "open", "reveal" ] },
 ]
