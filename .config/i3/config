@@ -112,8 +112,6 @@ bindsym $mod+Shift+Return exec --no-startup-id alacritty --config-file ~/.config
 # 启动 Chrome
 bindsym $mod+c exec LANGUAGE=zh_CN google-chrome-stable
 # bindsym $mod+c exec firefox
-# 启动 VS Code
-bindsym $mod+z exec code
 # 启动 dmenu (程序启动器)
 bindsym $mod+d exec "dmenu_run -i -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-14' -p 'dmenu%'"
 # 启动 Rofi
@@ -126,6 +124,11 @@ bindsym $alt+Control+a exec --no-startup-id LANGUAGE=zh_CN flameshot gui
 bindsym $mod+Shift+x exec --no-startup-id xfce4-settings-manager
 
 # --- 窗口管理 (Window Management) ---
+
+# scratchpad
+bindsym $mod+Shift+z move scratchpad
+bindsym $mod+z scratchpad show
+
 # 关闭当前窗口
 bindsym $mod+Shift+q kill
 # 窗口聚焦 (使用 Vim 风格的 hjkl 键)
