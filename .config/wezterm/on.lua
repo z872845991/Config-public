@@ -1,0 +1,380 @@
+local wezterm = require("wezterm")
+local utils = require("utils")
+local keybinds = require("keybinds")
+local scheme = wezterm.get_builtin_color_schemes()["nord"]
+local act = wezterm.action
+
+local bell_tabs = {}
+
+local function find_mux_tab(tab_id)
+	for _, gui_win in ipairs(wezterm.gui.gui_windows()) do
+		for _, mux_tab in ipairs(gui_win:mux_window():tabs()) do
+			if mux_tab:tab_id() == tab_id then
+				return mux_tab
+			end
+		end
+	end
+	return nil
+end
+
+-- selene: allow(unused_variable)
+---@diagnostic disable-next-line: unused-local
+local function create_tab_title(tab, tabs, panes, config, hover, max_width)
+	local user_title = tab.active_pane.user_vars.panetitle
+	if user_title ~= nil and #user_title > 0 then
+		return { { Text = tab.tab_index + 1 .. ":" .. user_title } }
+	end
+
+	local copy_mode, n = string.gsub(tab.active_pane.title, "(.+) mode: .*", "%1", 1)
+	if copy_mode == nil or n == 0 then
+		copy_mode = ""
+	else
+		copy_mode = copy_mode .. ": "
+	end
+
+	local prefix = copy_mode .. tab.tab_index + 1 .. ":"
+	local prefix_width = #prefix
+	local active_title = wezterm.truncate_right(tab.active_pane.title, max_width - prefix_width)
+
+	local function styled_title(title)
+		local app, content = title:match("^([^:]+):(.+)$")
+		if app then
+			return {
+				{ Attribute = { Intensity = "Bold" } },
+				{ Text = app .. ":" },
+				{ Attribute = { Intensity = "Normal" } },
+				{ Text = content },
+				{ Attribute = { Intensity = "Normal" } },
+			}
+		end
+		return { { Text = title } }
+	end
+
+	if #panes <= 1 then
+		local segments = { { Text = prefix } }
+		for _, s in ipairs(styled_title(active_title)) do
+			table.insert(segments, s)
+		end
+		return segments
+	end
+
+	local inactive_title = nil
+	local mux_tab = find_mux_tab(tab.tab_id)
+	if mux_tab then
+		for _, info in ipairs(mux_tab:panes_with_info()) do
+			if info.pane:pane_id() ~= tab.active_pane.pane_id then
+				local remaining = max_width - prefix_width - #active_title - 1
+				if remaining > 0 then
+					inactive_title = wezterm.truncate_right(info.pane:get_title(), remaining)
+				end
+				break
+			end
+		end
+	end
+
+	local segments = { { Text = prefix } }
+	for _, s in ipairs(styled_title(active_title)) do
+		table.insert(segments, s)
+	end
+	if inactive_title and inactive_title ~= "" then
+		table.insert(segments, { Text = "|" })
+		table.insert(segments, { Attribute = { Italic = true } })
+		table.insert(segments, { Attribute = { Intensity = "Half" } })
+		table.insert(segments, { Text = inactive_title })
+		table.insert(segments, { Attribute = { Intensity = "Normal" } })
+		table.insert(segments, { Attribute = { Italic = false } })
+	end
+	return segments
+end
+
+---------------------------------------------------------------
+--- wezterm on
+---------------------------------------------------------------
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	if tab.is_active then
+		bell_tabs[tab.tab_id] = nil
+	end
+	local marker = bell_tabs[tab.tab_id] and "● " or ""
+	local title_segments = create_tab_title(tab, tabs, panes, config, hover, max_width)
+
+	-- selene: allow(undefined_variable)
+	local solid_left_arrow = utf8.char(0x2590)
+	-- selene: allow(undefined_variable)
+	local solid_right_arrow = utf8.char(0x258c)
+	-- https://github.com/wez/wezterm/issues/807
+	-- local edge_background = scheme.background
+	-- https://github.com/wez/wezterm/blob/61f01f6ed75a04d40af9ea49aa0afe91f08cb6bd/config/src/color.rs#L245
+	local edge_background = "#2e3440"
+	local background = scheme.ansi[1]
+	local foreground = scheme.ansi[5]
+
+	if tab.is_active then
+		background = scheme.brights[1]
+		foreground = scheme.brights[8]
+	elseif hover then
+		background = scheme.cursor_bg
+		foreground = scheme.cursor_fg
+	end
+	local edge_foreground = background
+
+	local result = {
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = edge_foreground } },
+		{ Text = solid_left_arrow },
+		{ Background = { Color = background } },
+		{ Foreground = { Color = foreground } },
+		{ Text = marker },
+	}
+	for _, segment in ipairs(title_segments) do
+		table.insert(result, segment)
+	end
+	table.insert(result, { Attribute = { Intensity = "Normal" } })
+	table.insert(result, { Attribute = { Italic = false } })
+	table.insert(result, { Background = { Color = edge_background } })
+	table.insert(result, { Foreground = { Color = edge_foreground } })
+	table.insert(result, { Text = solid_right_arrow })
+	return result
+end)
+
+-- https://github.com/wez/wezterm/issues/1680
+local function update_window_background(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	-- If there's no foreground process, assume that we are "wezterm connect" or "wezterm ssh"
+	-- and use a different background color
+	-- if pane:get_foreground_process_name() == nil then
+	-- 	-- overrides.colors = { background = "blue" }
+	-- 	overrides.color_scheme = "Red Alert"
+	-- end
+
+	if overrides.color_scheme == nil then
+		return
+	end
+	if pane:get_user_vars().production == "1" then
+		overrides.color_scheme = "OneHalfDark"
+	end
+	window:set_config_overrides(overrides)
+end
+
+-- selene: allow(unused_variable)
+---@diagnostic disable-next-line: unused-function, unused-local
+local function update_tmux_style_tab(window, pane)
+	local cwd_uri = pane:get_current_working_dir()
+	---@diagnostic disable-next-line: unused-local
+	local hostname, cwd = utils.split_from_url(cwd_uri)
+	return {
+		{ Attribute = { Underline = "Single" } },
+		{ Attribute = { Italic = true } },
+		{ Text = hostname },
+	}
+end
+
+-- selene: allow(unused_variable)
+---@diagnostic disable-next-line: unused-local
+local function update_ssh_status(window, pane)
+	local text = pane:get_domain_name()
+	if text == "local" then
+		text = ""
+	end
+	return {
+		{ Attribute = { Italic = true } },
+		{ Text = text .. " " },
+	}
+end
+
+-- selene: allow(unused_variable)
+---@diagnostic disable-next-line: unused-function, unused-local
+local function display_ime_on_right_status(window, pane)
+	local compose = window:composition_status()
+	if compose then
+		compose = "COMPOSING: " .. compose
+	end
+	window:set_right_status(compose)
+end
+
+-- selene: allow(unused_variable)
+---@diagnostic disable-next-line: unused-local
+local function display_copy_mode(window, pane)
+	local name = window:active_key_table()
+	if name then
+		name = "Mode: " .. name
+	end
+	return { { Attribute = { Italic = false } }, { Text = name or "" } }
+end
+
+local function display_tmux_mode(window)
+	local o = window:get_config_overrides() or {}
+	local enabled = (o.window_background_opacity == nil)
+
+	return {
+		{ Text = enabled and "" or " tmux-keybind:OFF " },
+	}
+end
+
+local function display_zoom_mode(window, pane)
+	local tab = window:active_tab()
+	local pane_id = pane:pane_id()
+	local mode = ""
+	for _, info in ipairs(tab:panes_with_info()) do
+		if info.pane:pane_id() == pane_id and info.is_zoomed then
+			mode = "Mode: Zoom"
+		end
+	end
+	return { { Attribute = { Italic = false } }, { Text = mode } }
+end
+
+wezterm.on("update-right-status", function(window, pane)
+	-- local tmux = update_tmux_style_tab(window, pane)
+	local ssh = update_ssh_status(window, pane)
+	local copy_mode = display_copy_mode(window, pane)
+	update_window_background(window, pane)
+	local status = utils.merge_lists(ssh, copy_mode)
+	local tmux = display_tmux_mode(window)
+	status = utils.merge_lists(status, tmux)
+	local zoom = display_zoom_mode(window, pane)
+	status = utils.merge_lists(status, zoom)
+
+	local workspace_name = window:active_workspace()
+	if workspace_name ~= "default" then
+		local workspace_table = {
+			{ Text = " " .. workspace_name .. " " },
+		}
+		status = utils.merge_lists(status, workspace_table)
+	end
+
+	window:set_right_status(wezterm.format(status))
+end)
+
+-- selene: allow(unused_variable)
+---@diagnostic disable-next-line: unused-local
+wezterm.on("toggle-tmux-keybinds", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	if not overrides.window_background_opacity then
+		overrides.window_background_opacity = 0.85
+		overrides.keys = keybinds.default_keybinds
+	else
+		overrides.window_background_opacity = nil
+		overrides.keys = utils.merge_lists(keybinds.default_keybinds, keybinds.tmux_keybinds)
+	end
+	window:set_config_overrides(overrides)
+end)
+
+local io = require("io")
+local os = require("os")
+
+local function file_exists(path)
+	local f = io.open(path, "r")
+	if f == nil then
+		return false
+	end
+	f:close()
+	return true
+end
+
+local function resolve_command_path(command)
+	local cmd = command:match("^(%S+)")
+	if cmd == nil or cmd == "" then
+		return nil
+	end
+	if cmd:find("/", 1, true) then
+		if file_exists(cmd) then
+			return cmd
+		end
+		return nil
+	end
+	local ok, stdout = wezterm.run_child_process({ "/bin/sh", "-lc", 'command -v "$1"', "sh", cmd })
+	if not ok or stdout == nil then
+		return nil
+	end
+	local resolved = stdout:gsub("%s+$", "")
+	if resolved == "" then
+		return nil
+	end
+	return resolved
+end
+
+local function find_editor()
+	local candidates = {
+		"/usr/bin/nvim",
+		"/bin/nvim",
+		"nvim",
+		"/usr/bin/vim",
+		"/bin/vim",
+		"vim",
+	}
+	for _, candidate in ipairs(candidates) do
+		if candidate ~= nil and candidate ~= "" then
+			local editor = resolve_command_path(candidate)
+			if editor ~= nil then
+				return editor
+			end
+		end
+	end
+	return nil
+end
+
+wezterm.on("trigger-nvim-with-scrollback", function(window, pane)
+	local scrollback = pane:get_lines_as_text()
+	local name = os.tmpname()
+	local f = io.open(name, "w+")
+	if f == nil then
+		return
+	end
+	f:write(scrollback)
+	f:flush()
+	f:close()
+	local editor = find_editor()
+	if editor == nil then
+		utils.show_transient_left_status(window, "Alt+E requires nvim or vim in PATH", 2000)
+		os.remove(name)
+		return
+	end
+	window:perform_action(
+		act({
+			SpawnCommandInNewTab = {
+				args = { editor, name },
+			},
+		}),
+		pane
+	)
+	wezterm.sleep_ms(1000)
+	os.remove(name)
+end)
+
+-- https://github.com/wez/wezterm/issues/2979#issuecomment-1447519267
+local hacky_user_commands = {
+	-- selene: allow(unused_variable)
+	---@diagnostic disable-next-line: unused-local
+	["scroll-up"] = function(window, pane, cmd_context)
+		window:perform_action(wezterm.action({ ScrollByPage = -1 }), pane)
+		-- wezterm.action({ ScrollByPage = -1 })
+	end,
+	-- selene: allow(unused_variable)
+	---@diagnostic disable-next-line: unused-local
+	["scroll-down"] = function(window, pane, cmd_context)
+		window:perform_action(wezterm.action({ ScrollByPage = 1 }), pane)
+	end,
+}
+
+wezterm.on("user-var-changed", function(window, pane, name, value)
+	if name == "WEZTERM_PROG" then
+		utils.set_last_executed_command(pane:pane_id(), value)
+		return
+	end
+	if name == "hacky-user-command" then
+		local cmd_context = wezterm.json_parse(value)
+		hacky_user_commands[cmd_context.cmd](window, pane, cmd_context)
+		return
+	end
+end)
+
+wezterm.on("bell", function(window, pane)
+	local bell_pane_id = pane:pane_id()
+	for _, mux_tab in ipairs(window:mux_window():tabs()) do
+		for _, p in ipairs(mux_tab:panes()) do
+			if p:pane_id() == bell_pane_id then
+				bell_tabs[mux_tab:tab_id()] = true
+				return
+			end
+		end
+	end
+end)
