@@ -69,6 +69,8 @@ exec --no-startup-id fcitx5
 exec --no-startup-id flameshot &
 # 通知服务
 exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd 
+# copyq
+exec --no-startup-id copyq
 # caffeine
 exec --no-startup-id caffeine-indicator
 # 启动 Polybar
@@ -272,6 +274,9 @@ mode "$mode_gaps_outer" {
 for_window [urgent=latest] focus
 
 # 针对特定应用的窗口规则 (自动聚焦或设为浮动)
+for_window [class="copyq"] floating enable
+for_window [class="copyq"] resize set 700 450
+for_window [class="copyq"] move position center
 for_window [class="Vivaldi-stable"] focus
 for_window [class="Spotify"] focus
 for_window [class="Thunar"] focus
