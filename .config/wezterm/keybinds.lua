@@ -115,7 +115,7 @@ M.tmux_keybinds = {
 	{ key = "j", mods = "ALT|SHIFT|CTRL", action = act({ AdjustPaneSize = { "Down", 1 } }) },
 	{ key = "Enter", mods = "ALT", action = "QuickSelect" },
 	{ key = "Enter", mods = "SHIFT", action = act.SendString("\n") },
-	{ key = "/", mods = "ALT", action = act.Search("CurrentSelectionOrEmptyString") },
+	{ key = "f", mods = "CTRL|SHIFT", action = act.Search("CurrentSelectionOrEmptyString") },
 }
 
 M.default_keybinds = {
