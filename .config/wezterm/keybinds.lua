@@ -134,6 +134,7 @@ M.default_keybinds = {
 	{ key = "q", mods = "ALT", action = act({ CloseCurrentPane = { confirm = true } }) },
 	{ key = "a", mods = "ALT", action = act.ShowLauncher },
 	{ key = " ", mods = "ALT", action = act.ShowTabNavigator },
+	{ key = "i", mods = "CTRL", action = wezterm.action.SendKey({ key = "Tab" }) },
 
 	{
 		key = ".", -- Pause Mode
