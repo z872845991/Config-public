@@ -2,106 +2,49 @@
 # GUI changes are stored separately in ~/.local/state/noctalia/settings.toml
 # and override this file.
 
-[accessibility]
-ui_scale = 1.0
-high_contrast = false
+config_version = 2
 
 [shell]
-font_family = "Maple Mono NL NFMono CN"
-time_format = "{:%H:%M}"
+app_icon_color = "on_surface_variant"
+font_family = "MesloLGS NF"
+lang = "zh-Hans"
 date_format = "%A, %Y-%m-%d"
-corner_radius_scale = 1.0
 setup_wizard_enabled = false
-telemetry_enabled = false
-offline_mode = false
 polkit_agent = true
-clipboard_enabled = true
 clipboard_history_max_entries = 200
-clipboard_confirm_clear_history = true
-clipboard_auto_paste = "auto"
-middle_click_opens_widget_settings = true
-
-[shell.animation]
-enabled = true
-speed = 1.0
 
 [shell.panel]
-transparency_mode = "soft"
-borders = true
-shadow = true
-launcher_placement = "centered"
-clipboard_placement = "centered"
-control_center_placement = "attached"
-wallpaper_placement = "attached"
-session_placement = "attached"
-polkit_placement = "floating"
-polkit_position = "center"
+transparency_mode = "glass"
 
-[shell.launcher]
-categories = true
-show_icons = true
-compact = false
-app_grid = false
-sort_by_usage = true
-provider_prefix = "/"
+[shell.launcher.providers.calculator]
+prefix = ""
 
 [shell.screenshot]
-save_to_file = true
 directory = "~/Pictures"
 filename_pattern = "screenshot_%Y%m%d_%H%M%S"
-copy_to_clipboard = true
-freeze_screen = true
-confirm_region = false
-show_cursor = false
-pipe_to_command = false
 
 [theme]
 mode = "dark"
-source = "builtin"
-builtin = "Nord"
-pure_black_dark = false
+source = "community"
+community_palette = "Catppuccin Lavender"
 
 [wallpaper]
-enabled = true
-fill_mode = "crop"
 transition = ["fade", "wipe", "zoom"]
 transition_duration = 900
-transition_on_startup = false
 directory = "~/Pictures"
 
-[wallpaper.automation]
-enabled = false
-interval_minutes = 0
-order = "random"
-recursive = true
-
 [notification]
-enable_daemon = true
-show_app_name = true
-show_actions = true
-layer = "top"
 scale = 1.1
-background_opacity = 0.97
 offset_x = 12
-offset_y = 8
 
 [osd]
-position = "top_center"
-orientation = "horizontal"
-scale = 1.0
-background_opacity = 0.97
 offset_x = 12
-offset_y = 8
 
 [lockscreen]
-enabled = true
 fingerprint = false
-allow_empty_password = false
 blurred_desktop = true
 blur_intensity = 0.55
 tint_intensity = 0.35
-wallpaper = ""
-monitors = []
 
 # The i3 setup did not automatically lock or blank the screen, so these remain
 # disabled. They can be enabled later without adding hypridle.
@@ -115,56 +58,37 @@ timeout = 1260
 action = "screen_off"
 enabled = false
 
-[audio]
-enable_overdrive = false
-enable_sounds = false
-
 # External DP monitors usually need ddcutil; leave this off until `ddcutil
 # detect` confirms that the displays support DDC/CI.
 [brightness]
 enable_ddcutil = false
 
 [system.monitor]
-enabled = true
-cpu_poll_seconds = 2.0
-gpu_poll_seconds = 5.0
-memory_poll_seconds = 2.0
 network_poll_seconds = 1.0
-disk_poll_seconds = 10.0
 
 [bar]
 order = ["main"]
 
 # Main DP-1 bar: mirrors the current Polybar layout.
 [bar.main]
-position = "top"
-enabled = true
-auto_hide = false
-smart_auto_hide = false
-reserve_space = true
-layer = "top"
 thickness = 40
-background_opacity = 0.96
-border = "outline"
+background_opacity = 0.89999997988343239
+border = "on_hover"
 border_width = 1.0
-shadow = true
 radius = 0
-radius_top_left = 0
-radius_top_right = 0
-radius_bottom_left = 0
-radius_bottom_right = 0
 concave_edge_corners = false
 margin_ends = 0
-margin_edge = 0
 padding = 10
 widget_spacing = 8
 scale = 1.5
-font_weight = 500
 font_family = "Maple Mono NL NFMono CN"
-capsule = false
-start = ["launcher", "workspaces", "network"]
+capsule = true
+capsule_border = "on_primary"
+color = "primary"
+icon_color = "primary"
+start = ["workspaces", "network"]
 center = ["net-down", "net-up", "media"]
-end = ["volume", "ram", "cpu", "clock", "tray", "notifications", "clipboard", "screenshot", "control-center", "session"]
+end = ["volume", "group:g1", "clock", "caffeine", "notifications", "tray"]
 
 # The old DP-2 Polybar was deliberately minimal: workspaces plus date/Variety.
 # Noctalia's wallpaper button replaces Variety here.
@@ -172,14 +96,23 @@ end = ["volume", "ram", "cpu", "clock", "tray", "notifications", "clipboard", "s
 match = "DP-2"
 start = ["workspaces"]
 center = []
-end = ["clock", "wallpaper", "tray"]
+end = ["clock", "wallpaper", "tray", "weather_2"]
+
+[[bar.main.capsule_group]]
+border = "on_primary"
+enabled = true
+fill = "surface_variant"
+id = "g1"
+members = ["cpu", "ram"]
+opacity = 1.0
+padding = 6.0
 
 [widget.workspaces]
 style = "regular"
 display = "id"
 max_label_chars = 2
 labels_only_when_occupied = false
-hide_when_empty = false
+hide_when_empty = true
 enable_scroll = true
 focused_color = "primary"
 occupied_color = "secondary"
@@ -212,7 +145,6 @@ artist_first = false
 hide_artist = false
 hide_when_no_media = true
 title_scroll = "on_hover"
-min_length = 80
 max_length = 260
 art_size = 20
 enable_scroll = true
@@ -225,22 +157,19 @@ show_label = true
 mute_color = "error"
 
 [widget.ram]
-type = "sysmon"
 stat = "ram_pct"
 display = "text"
 show_label = true
-label_min_width = 52
+label_min_width = 0
 
 [widget.cpu]
-type = "sysmon"
-stat = "cpu_usage"
 display = "text"
 show_label = true
-label_min_width = 52
+label_min_width = 0
 
 [widget.clock]
-format = "{:%Y-%m-%d %H:%M}"
-tooltip_format = "{:%A, %B %d, %Y}"
+format = "{:%H:%M}"
+tooltip_format = "{:%A, %B %d, %Y, %H:%M:%S}"
 
 [widget.tray]
 hidden = []
@@ -249,17 +178,19 @@ drawer = false
 match_adjacent_spacing = true
 
 [widget.notifications]
-hide_when_no_unread = true
+hide_when_no_unread = false
 
-[widget.clipboard]
-glyph = "clipboard-list"
+[widget.network]
+show_vpn_label = true
 
-[widget.screenshot]
-glyph = "screenshot"
-primary_click = "region"
+[widget.weather_2]
+show_condition = true
+type = "jesse/hfweather:weather"
 
-[widget.session]
-glyph = "shutdown"
+[plugin_settings."jesse/hfweather"]
+api_host = ""
+api_key = ""
+location = "北京"
 
-[dock]
-enabled = false
+[plugins]
+enabled = ["noctalia/wallhaven", "jesse/hfweather"]
